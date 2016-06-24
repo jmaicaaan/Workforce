@@ -1,0 +1,34 @@
+{
+  "name": "workforce",
+  "version": "1.0.0",
+  "description": "",
+  "main": "entry.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "concurrently \"npm run lite\" \"npm run watch\" \"npm run bundle\" ",
+    "bundle": "browserify js/entry.js -o js/bundle.js",
+    "watch": "watchify js/entry.js -o js/bundle.js",
+    "lite": "lite-server"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "angular": "^1.5.7",
+    "angular-animate": "^1.5.7",
+    "angular-aria": "^1.5.7",
+    "angular-material": "^1.1.0-rc.5",
+    "angular-ui-router": "^0.3.1",
+    "browserify": "^13.0.1",
+    "concurrently": "^2.1.0",
+    "lite-server": "^2.2.0",
+    "material-design-icons": "^2.2.3",
+    "material-icons": "^0.1.0",
+    "roboto-font": "^0.1.0",
+    "watchify": "^3.7.0"
+  },
+  "dependencies": {
+    "angular-material": "^1.1.0-rc.5",
+    "angular-ui-router": "^0.3.1",
+    "watchify": "^3.7.0"
+  }
+}

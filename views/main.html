@@ -1,0 +1,41 @@
+<div layout="column" style="height: 100%;">
+	
+	<div>
+		<md-toolbar>
+			<div class="md-toolbar-tools md-hue-1 md-whiteframe-2dp">
+				<md-button class="md-icon-button" aria-label="menu" ui-sref="index.login">
+					<md-icon md-svg-icon="../node_modules/material-design-icons/navigation/svg/design/ic_menu_18px.svg"></md-icon>
+				</md-button>
+				<h5> <span style="color: white;"> Workforce </span> </h5>
+
+				<span flex></span>
+			</div>
+		</md-toolbar>
+	</div>
+
+	<div>
+		<md-sidenav class="md-sidenav md-whiteframe-2dp" md-component-id="nav" md-is-open="true">
+			<div>
+				<md-toolbar class="md-tall">
+			        <h1 class="md-toolbar-tools">Sidenav Right</h1>
+			    </md-toolbar>
+		    </div>
+		    <md-list>
+		    	<md-list-item ui-sref="Login">
+					<md-icon md-svg-icon="../node_modules/material-design-icons/action/svg/design/ic_home_24px.svg"></md-icon>
+					<p class="md-body-2">Login</p>
+				</md-list-item>	
+		    </md-list>
+		</md-sidenav>
+	</div>
+
+	<div ui-view style="height: 100%">
+		<div class="landing" style="height: 100%">
+			<!-- <div layout="column" layout-align="center center" style="height: 100%">
+				<div class="landingText md-whiteframe-10dp"> 
+					<h2> Workforce </h2>
+				</div>
+			</div> -->
+		</div>
+	</div>
+</div>
