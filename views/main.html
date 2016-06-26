@@ -3,7 +3,7 @@
 	<div>
 		<md-toolbar>
 			<div class="md-toolbar-tools md-hue-1 md-whiteframe-2dp">
-				<md-button class="md-icon-button" aria-label="menu" ui-sref="index.login">
+				<md-button class="md-icon-button" aria-label="menu" ng-click="vm.openNav($event)">
 					<md-icon md-svg-icon="../node_modules/material-design-icons/navigation/svg/design/ic_menu_18px.svg"></md-icon>
 				</md-button>
 				<h5> <span style="color: white;"> Workforce </span> </h5>
@@ -14,7 +14,7 @@
 	</div>
 
 	<div>
-		<md-sidenav class="md-sidenav md-whiteframe-2dp" md-component-id="nav" md-is-open="true">
+		<md-sidenav class="md-sidenav md-whiteframe-2dp" md-component-id="nav">
 			<div>
 				<md-toolbar class="md-tall">
 			        <h1 class="md-toolbar-tools">Sidenav Right</h1>
