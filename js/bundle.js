@@ -1,4 +1,25 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+module.exports = loginComponent;
+
+function loginComponent(){
+	return {
+		scope: {},
+		restrict: "E",
+		templateUrl: "../../views/login.html",
+		link: linker,
+		controller: control,
+		controllerAs: "vm",
+	};
+
+	function linker(scope, elem, attrs){
+
+	}
+
+	function control(){
+		var self = this;
+	}
+}
+},{}],2:[function(require,module,exports){
 module.exports = mainComponent;
 
 function mainComponent(){
@@ -21,37 +42,12 @@ function mainComponent(){
 
 		self.openNav = openNav;
 
-		openNav();
-
 		function openNav(event){
-			//$mdSidenav("nav").toggle();
-
-			// $mdDialog.show({
-			// 	parent: angular.element(document.body),
-			// 	targetEvent: event,
-			// 	templateUrl: "../../views/dialog.html"
-			// })
-
-			var config = {
-				attachTo: angular.element(document.body),
-				disableParentScroll: true,
-				templateUrl: "../../views/dialog.html",
-				hasBackdrop: true,
-				panelClass: "demo-dialog-example",
-				targetEvent: event,
-				position: $mdPanel.newPanelPosition().absolute().center(),
-				trapFocus: true,
-				zIndex: 150,
-				clickOutsideToClose: true,
-			    escapeToClose: true,
-			    focusOnOpen: true
-			};
-
-			$mdPanel.open(config);
+			$mdSidenav("nav").toggle();
 		}
 	}
 }
-},{}],2:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
 module.exports = workforceConfig;
 
 
@@ -68,14 +64,28 @@ function workforceConfig($stateProvider, $urlRouterProvider, $mdThemingProvider)
 	$stateProvider
 		.state("index", {
 			url: "/",
-			template: "<main-Component>Hello</main-Component>"
+			template: "<main-Component>Loading...</main-Component>"
 		})
-		.state("index.login", {
-			url: "login",
-			template: "What's up peeps"
+		.state("login", {
+			url: "/login",
+			template: "<login-Component>Loading...</login-Component>"
+		})
+		.state("login.github", {
+			url: "/login/auth",
+			template: "github"
+		})
+		.state("callback", {
+			url: "/callback",
+			controller: function($state, $stateParams, $location){
+				var self = this;
+
+				console.log($location.$$absUrl);
+				var xxx = $location.$$absUrl;
+				console.log(xxx.substring(xxx.indexOf("=") + 1, xxx.indexOf("#") -1));
+			}
 		});
 }
-},{}],3:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 var angular = require("angular");
 var angular_material = require("angular-material");
 var angular_aria = require("angular-aria");
@@ -93,7 +103,8 @@ var workforceApp = angular.module("workforceApp", [
 
 workforceApp.config(require("./config/workforceConfig"));
 workforceApp.directive("mainComponent", require("./components/mainComponent"));
-},{"./components/mainComponent":1,"./config/workforceConfig":2,"angular":12,"angular-animate":5,"angular-aria":7,"angular-material":9,"angular-ui-router":10}],4:[function(require,module,exports){
+workforceApp.directive("loginComponent", require("./components/loginComponent"));
+},{"./components/loginComponent":1,"./components/mainComponent":2,"./config/workforceConfig":3,"angular":13,"angular-animate":6,"angular-aria":8,"angular-material":10,"angular-ui-router":11}],5:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.7
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -4241,11 +4252,11 @@ angular.module('ngAnimate', [])
 
 })(window, window.angular);
 
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 require('./angular-animate');
 module.exports = 'ngAnimate';
 
-},{"./angular-animate":4}],6:[function(require,module,exports){
+},{"./angular-animate":5}],7:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.7
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -4652,11 +4663,11 @@ ngAriaModule.directive('ngShow', ['$aria', function($aria) {
 
 })(window, window.angular);
 
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 require('./angular-aria');
 module.exports = 'ngAria';
 
-},{"./angular-aria":6}],8:[function(require,module,exports){
+},{"./angular-aria":7}],9:[function(require,module,exports){
 /*!
  * Angular Material Design
  * https://github.com/angular/material
@@ -35343,7 +35354,7 @@ angular.module("material.core").constant("$MD_THEME_CSS", "/*  Only used with Th
 
 
 })(window, window.angular);;window.ngMaterial={version:{full: "1.1.0-rc.5"}};
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 // Should already be required, here for clarity
 require('angular');
 
@@ -35357,7 +35368,7 @@ require('./angular-material');
 // Export namespace
 module.exports = 'ngMaterial';
 
-},{"./angular-material":8,"angular":12,"angular-animate":5,"angular-aria":7}],10:[function(require,module,exports){
+},{"./angular-material":9,"angular":13,"angular-animate":6,"angular-aria":8}],11:[function(require,module,exports){
 /**
  * State-based routing for AngularJS
  * @version v0.3.1
@@ -39934,7 +39945,7 @@ angular.module('ui.router.state')
   .filter('isState', $IsStateFilter)
   .filter('includedByState', $IncludedByStateFilter);
 })(window, window.angular);
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.7
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -71408,8 +71419,8 @@ $provide.value("$locale", {
 })(window);
 
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 require('./angular');
 module.exports = angular;
 
-},{"./angular":11}]},{},[3]);
+},{"./angular":12}]},{},[4]);

@@ -14,10 +14,24 @@ function workforceConfig($stateProvider, $urlRouterProvider, $mdThemingProvider)
 	$stateProvider
 		.state("index", {
 			url: "/",
-			template: "<main-Component>Hello</main-Component>"
+			template: "<main-Component>Loading...</main-Component>"
 		})
-		.state("index.login", {
-			url: "login",
-			template: "What's up peeps"
+		.state("login", {
+			url: "/login",
+			template: "<login-Component>Loading...</login-Component>"
+		})
+		.state("login.github", {
+			url: "/login/auth",
+			template: "github"
+		})
+		.state("callback", {
+			url: "/callback",
+			controller: function($state, $stateParams, $location){
+				var self = this;
+
+				console.log($location.$$absUrl);
+				var xxx = $location.$$absUrl;
+				console.log(xxx.substring(xxx.indexOf("=") + 1, xxx.indexOf("#") -1));
+			}
 		});
 }
