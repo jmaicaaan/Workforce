@@ -16,3 +16,4 @@ var workforceApp = angular.module("workforceApp", [
 workforceApp.config(require("./config/workforceConfig"));
 workforceApp.directive("mainComponent", require("./components/mainComponent"));
 workforceApp.directive("loginComponent", require("./components/loginComponent"));
+workforceApp.directive("registerComponent", require("./components/registerComponent"));

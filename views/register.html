@@ -1,0 +1,48 @@
+<div layout="column" style="height: 100%">
+	<div layout="row" layout-align="center center" style="height: 100%">
+		<md-card style="width: 40%;">
+			<md-card-header>
+				<md-card-header-text>
+					<div layout="column" layout-align="center center">
+						<h1 class="md-display-1">SIGN UP</h1>
+					</div>
+				</md-card-header-text>
+			</md-card-header>
+			<md-card-content>
+				<div layout="column">
+					<md-input-container>
+						<label>Email</label>
+						<input ng-model="vm.user.email">
+					</md-input-container>
+					<md-input-container>
+						<label>Password</label>
+						<input ng-model="vm.user.password" type="password">
+					</md-input-container>
+					<md-input-container>
+						<label>Confirm Password</label>
+						<input ng-model="vm.user.confirmPassword" type="password">
+					</md-input-container>
+
+					<br/>
+					<br/>
+
+					<div layout="row">
+						<div flex>
+							<md-button class="md-primary md-raised" ui-sref="register">
+								Sign Up
+							</md-button>
+							<md-button class="md-primary" ui-sref="login">
+								Login
+							</md-button>
+						</div>
+						<div flex="20">
+							<span class="md-caption" style="color: gray"> Or sign-up with </span>
+						</div>
+						<div flex="10">
+							<img src="views/img/github.png" class="md-user-avatar"/>
+						</div>
+					</div>
+			</md-card-content>
+		</md-card>
+	</div>
+</div>

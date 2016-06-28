@@ -48,6 +48,27 @@ function mainComponent(){
 	}
 }
 },{}],3:[function(require,module,exports){
+module.exports = registerComponent;
+
+function registerComponent(){
+	return {
+		scope: {},
+		restrict: "E",
+		templateUrl: "../../views/register.html",
+		link: linker,
+		controller: control,
+		controllerAs: "vm"
+	};
+
+	function linker(scope, elem, attrs){
+
+	}
+
+	function control(){
+		var self = this;
+	}
+}
+},{}],4:[function(require,module,exports){
 module.exports = workforceConfig;
 
 
@@ -70,6 +91,10 @@ function workforceConfig($stateProvider, $urlRouterProvider, $mdThemingProvider)
 			url: "/login",
 			template: "<login-Component>Loading...</login-Component>"
 		})
+		.state("register", {
+			url: "/register",
+			template: "<register-Component>Loading...</register-Component>"
+		})
 		.state("login.github", {
 			url: "/login/auth",
 			template: "github"
@@ -85,7 +110,7 @@ function workforceConfig($stateProvider, $urlRouterProvider, $mdThemingProvider)
 			}
 		});
 }
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 var angular = require("angular");
 var angular_material = require("angular-material");
 var angular_aria = require("angular-aria");
@@ -104,7 +129,8 @@ var workforceApp = angular.module("workforceApp", [
 workforceApp.config(require("./config/workforceConfig"));
 workforceApp.directive("mainComponent", require("./components/mainComponent"));
 workforceApp.directive("loginComponent", require("./components/loginComponent"));
-},{"./components/loginComponent":1,"./components/mainComponent":2,"./config/workforceConfig":3,"angular":13,"angular-animate":6,"angular-aria":8,"angular-material":10,"angular-ui-router":11}],5:[function(require,module,exports){
+workforceApp.directive("registerComponent", require("./components/registerComponent"));
+},{"./components/loginComponent":1,"./components/mainComponent":2,"./components/registerComponent":3,"./config/workforceConfig":4,"angular":14,"angular-animate":7,"angular-aria":9,"angular-material":11,"angular-ui-router":12}],6:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.7
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -4252,11 +4278,11 @@ angular.module('ngAnimate', [])
 
 })(window, window.angular);
 
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 require('./angular-animate');
 module.exports = 'ngAnimate';
 
-},{"./angular-animate":5}],7:[function(require,module,exports){
+},{"./angular-animate":6}],8:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.7
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -4663,11 +4689,11 @@ ngAriaModule.directive('ngShow', ['$aria', function($aria) {
 
 })(window, window.angular);
 
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 require('./angular-aria');
 module.exports = 'ngAria';
 
-},{"./angular-aria":7}],9:[function(require,module,exports){
+},{"./angular-aria":8}],10:[function(require,module,exports){
 /*!
  * Angular Material Design
  * https://github.com/angular/material
@@ -35354,7 +35380,7 @@ angular.module("material.core").constant("$MD_THEME_CSS", "/*  Only used with Th
 
 
 })(window, window.angular);;window.ngMaterial={version:{full: "1.1.0-rc.5"}};
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 // Should already be required, here for clarity
 require('angular');
 
@@ -35368,7 +35394,7 @@ require('./angular-material');
 // Export namespace
 module.exports = 'ngMaterial';
 
-},{"./angular-material":9,"angular":13,"angular-animate":6,"angular-aria":8}],11:[function(require,module,exports){
+},{"./angular-material":10,"angular":14,"angular-animate":7,"angular-aria":9}],12:[function(require,module,exports){
 /**
  * State-based routing for AngularJS
  * @version v0.3.1
@@ -39945,7 +39971,7 @@ angular.module('ui.router.state')
   .filter('isState', $IsStateFilter)
   .filter('includedByState', $IncludedByStateFilter);
 })(window, window.angular);
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.7
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -71419,8 +71445,8 @@ $provide.value("$locale", {
 })(window);
 
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 require('./angular');
 module.exports = angular;
 
-},{"./angular":12}]},{},[4]);
+},{"./angular":13}]},{},[5]);
