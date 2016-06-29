@@ -1,3 +1,5 @@
+READ <a href="http://www.uxforthemasses.com/login-page/"> THIS </a>
+
 <div layout="column" style="height: 100%">
 	<div layout="row" layout-align="center center" style="height: 100%">
 		<md-card style="width: 40%;">
@@ -9,39 +11,42 @@
 				</md-card-header-text>
 			</md-card-header>
 			<md-card-content>
-				<div layout="column">
-					<md-input-container>
-						<label>Email</label>
-						<input ng-model="vm.user.email">
-					</md-input-container>
-					<md-input-container>
-						<label>Password</label>
-						<input ng-model="vm.user.password" type="password">
-					</md-input-container>
+				<form autocomplete="off">
+					<div layout="column">
+						<md-input-container>
+							<label>Email</label>
+							<input ng-model="vm.user.email">
+						</md-input-container>
+						<md-input-container>
+							<label>Password</label>
+							<input ng-model="vm.user.password" type="password">
+						</md-input-container>
 
-					<div layout="row" layout-align="end end">
-						<span class="md-caption" style="color: gray;">Forgot your password?</span>
+						<div layout="row" layout-align="end end">
+							<span class="md-caption" style="color: gray;">Forgot your password?</span>
+						</div>
+
+						<br/>
+						<br/>
+
+						<div layout="row">
+							<div flex>
+								<md-button class="md-primary">
+									Sign Up
+								</md-button>
+								<md-button class="md-primary md-raised" ng-click="vm.login(vm.user);">
+									Login
+								</md-button>
+							</div>
+							<div flex="20">
+								<span class="md-caption" style="color: gray"> Or login with </span>
+							</div>
+							<div flex="10">
+								<img src="views/img/github.png" class="md-user-avatar"/>
+							</div>
+						</div>
 					</div>
-
-					<br/>
-					<br/>
-
-					<div layout="row">
-						<div flex>
-							<md-button class="md-primary" ui-sref="register">
-								Sign Up
-							</md-button>
-							<md-button class="md-primary md-raised" ui-sref="login">
-								Login
-							</md-button>
-						</div>
-						<div flex="20">
-							<span class="md-caption" style="color: gray"> Or login with </span>
-						</div>
-						<div flex="10">
-							<img src="views/img/github.png" class="md-user-avatar"/>
-						</div>
-					</div>
+				</form>
 			</md-card-content>
 		</md-card>
 	</div>

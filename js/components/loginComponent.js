@@ -7,14 +7,25 @@ function loginComponent(){
 		templateUrl: "../../views/login.html",
 		link: linker,
 		controller: control,
-		controllerAs: "vm",
+		controllerAs: "vm"
 	};
 
 	function linker(scope, elem, attrs){
 
 	}
 
-	function control(){
+	function control($state){
 		var self = this;
+
+		self.user = {};
+		self.login = login;
+
+		function login(){
+			console.log(self.user);
+			if(self.user.email == "admin" && self.user.password == "admin")
+				$state.go("dashboard");
+			else
+				alert("Incorrect email or password.");
+		}
 	}
 }

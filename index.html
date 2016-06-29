@@ -4,9 +4,13 @@
 		<title>Workforce</title>
 		<link rel="stylesheet" type="text/css" href="node_modules/roboto-font/css/fonts.css">
 		<link rel="stylesheet" type="text/css" href="node_modules/angular-material/angular-material.min.css">
+		<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyADcmb86_8XF4Qdg0qQZ9ZYJWYDMHDFlos"></script>
 		<script type="text/javascript" src="js/bundle.js"></script>
 
 		<style>
+			body, .fullpage{
+				height: 100%;
+			}
 			.landing{
 				background: url('views/img/774056.jpg') no-repeat center center fixed; 
 				background-size: cover; 
@@ -20,15 +24,22 @@
 				zoom: 1;
 				top: 50%;
 				bottom: 20%;
-			}.demo-md-panel {
-				min-height: 500px;
-			}.demo-dialog-example {
-			  background: white;
-			  border-radius: 4px;
-			  box-shadow: 0 7px 8px -4px rgba(0, 0, 0, 0.2),
-			      0 13px 19px 2px rgba(0, 0, 0, 0.14),
-			      0 5px 24px 4px rgba(0, 0, 0, 0.12);
-			  width: 500px;
+			}
+			.avatar_image{
+				width: 50px;
+				height: 50px;
+				border-radius: 50%;
+				overflow: hidden;
+				position: relative;
+			}
+			.avatar_image img{
+				display: inline;
+				margin: 0 auto;
+			    height: 100%;
+			    width: auto;
+			}
+			#map{
+				height: 100%;
 			}
 		</style>
 

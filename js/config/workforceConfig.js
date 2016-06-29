@@ -24,6 +24,14 @@ function workforceConfig($stateProvider, $urlRouterProvider, $mdThemingProvider)
 			url: "/register",
 			template: "<register-Component>Loading...</register-Component>"
 		})
+		.state("dashboard", {
+			url: "/dashboard",
+			template: "<dashboard-Component>Loading...</dashboard-Component>"
+		})
+		.state("dashboard.explore", {
+			url: "/explore",
+			template: "<explore-Component>Loading...</explore-Component>"
+		})
 		.state("login.github", {
 			url: "/login/auth",
 			template: "github"
