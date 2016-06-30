@@ -1,13 +1,13 @@
 module.exports = mapComponent;
 
 
-function mapComponent($mdDialog, dialogService){
+function mapComponent($mdDialog, dialogService, $window){
 	return {
 		scope: {},
 		restrict: "E",
 		templateUrl: "../../views/map.html",
 		link: linker,
-		controller: control,
+		controller: mapComponentController,
 		controllerAs: "vm"
 	};
 
@@ -66,7 +66,7 @@ function mapComponent($mdDialog, dialogService){
 					self.closeSearchDialog = closeSearchDialog;
 
 					function closeSearchDialog(){
-						dialogService.closeDialog();	
+						dialogService.closeDialog();
 					}
 				}
 
@@ -75,7 +75,7 @@ function mapComponent($mdDialog, dialogService){
 		}
 	}
 
-	function control(){
+	function mapComponentController(){
 		var self = this;			
 		self.showSearchDialog = showSearchDialog;
 

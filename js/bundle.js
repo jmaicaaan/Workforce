@@ -1,4 +1,25 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+module.exports = accountComponent;
+
+function accountComponent(){
+	return {
+		scope: {},
+		restrict: "E",
+		templateUrl: "../../views/settings/account.html",
+		link: linker,
+		controller: accountComponentController,
+		controllerAs: "vm"
+	};
+
+	function linker(scope, elem, attrs){
+
+	}
+
+	function accountComponentController(){
+		var self = this;
+	}
+}
+},{}],2:[function(require,module,exports){
 module.exports = dashboardComponent;
 
 function dashboardComponent(){
@@ -7,7 +28,7 @@ function dashboardComponent(){
 		restrict: "E",
 		templateUrl: "../../views/dashboard.html",
 		link: linker,
-		controller: control,
+		controller: dashboardComponentController,
 		controllerAs: "vm"
 	};
 
@@ -15,16 +36,17 @@ function dashboardComponent(){
 
 	}
 
-	function control($mdSidenav){
+	function dashboardComponentController($mdSidenav, stateService){
 		var self = this;
 		self.openNav = openNav;
+		self.stateTitle = stateService.stateName;
 
 		function openNav(){
 			$mdSidenav("nav").toggle();
 		}
 	}
 }
-},{}],2:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
 module.exports = exploreComponent;
 
 
@@ -34,7 +56,7 @@ function exploreComponent(){
 		restrict: "E",
 		templateUrl: "../../views/explore.html",
 		link: linker,
-		controller: control,
+		controller: exploreComponentController,
 		controllerAs: "vm"
 	};
 
@@ -42,11 +64,11 @@ function exploreComponent(){
 
 	}
 
-	function control(){
+	function exploreComponentController(){
 		var self = this;
 	}
 }
-},{}],3:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 module.exports = loginComponent;
 
 function loginComponent(){
@@ -55,7 +77,7 @@ function loginComponent(){
 		restrict: "E",
 		templateUrl: "../../views/login.html",
 		link: linker,
-		controller: control,
+		controller: loginComponentController,
 		controllerAs: "vm"
 	};
 
@@ -63,7 +85,7 @@ function loginComponent(){
 
 	}
 
-	function control($state){
+	function loginComponentController($state){
 		var self = this;
 
 		self.user = {};
@@ -78,7 +100,7 @@ function loginComponent(){
 		}
 	}
 }
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 module.exports = mainComponent;
 
 function mainComponent(){
@@ -88,7 +110,7 @@ function mainComponent(){
 		restrict: "E",
 		templateUrl: "../../views/main.html",
 		link: linker,
-		controller: control,
+		controller: mainComponentController,
 		controllerAs: "vm"
 	};
 
@@ -96,7 +118,7 @@ function mainComponent(){
 		
 	}
 
-	function control($mdSidenav, $mdPanel){
+	function mainComponentController($mdSidenav, $mdPanel){
 		var self = this;
 
 		self.openNav = openNav;
@@ -106,17 +128,17 @@ function mainComponent(){
 		}
 	}
 }
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 module.exports = mapComponent;
 
 
-function mapComponent($mdDialog, dialogService){
+function mapComponent($mdDialog, dialogService, $window){
 	return {
 		scope: {},
 		restrict: "E",
 		templateUrl: "../../views/map.html",
 		link: linker,
-		controller: control,
+		controller: mapComponentController,
 		controllerAs: "vm"
 	};
 
@@ -175,7 +197,7 @@ function mapComponent($mdDialog, dialogService){
 					self.closeSearchDialog = closeSearchDialog;
 
 					function closeSearchDialog(){
-						dialogService.closeDialog();	
+						dialogService.closeDialog();
 					}
 				}
 
@@ -184,7 +206,7 @@ function mapComponent($mdDialog, dialogService){
 		}
 	}
 
-	function control(){
+	function mapComponentController(){
 		var self = this;			
 		self.showSearchDialog = showSearchDialog;
 
@@ -209,7 +231,7 @@ function mapComponent($mdDialog, dialogService){
 		}
 	}
 }
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 module.exports = navComponent;
 
 function navComponent($mdSidenav){
@@ -229,7 +251,28 @@ function navComponent($mdSidenav){
 		}
 	}
 }
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
+module.exports = profileComponent;
+
+function profileComponent(){
+	return {
+		scope: {},
+		restrict: "E",
+		templateUrl: "../../views/settings/profile.html",
+		link: linker,
+		controller: profileComponentController,
+		controllerAs: "vm"
+	};
+
+	function linker(scope, elem, attrs){
+
+	}
+
+	function profileComponentController(){
+		var self = this;
+	}
+}
+},{}],9:[function(require,module,exports){
 module.exports = registerComponent;
 
 function registerComponent(){
@@ -238,7 +281,7 @@ function registerComponent(){
 		restrict: "E",
 		templateUrl: "../../views/register.html",
 		link: linker,
-		controller: control,
+		controller: registerComponentController,
 		controllerAs: "vm"
 	};
 
@@ -246,11 +289,43 @@ function registerComponent(){
 
 	}
 
-	function control(){
+	function registerComponentController(){
 		var self = this;
 	}
 }
-},{}],8:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
+module.exports = settingsComponent;
+
+function settingsComponent(){
+	return {
+		scope: {},
+		restrict: "E",
+		templateUrl: "../../views/settings.html",
+		link: linker,
+		controller: settingsComponentController,
+		controllerAs: "vm"
+	};
+
+	function linker(scope, elem, attrs){
+
+	}
+
+	function settingsComponentController($state){
+		var self = this;		
+		// $state.go("dashboard.settings.profile");
+
+	}
+}
+},{}],11:[function(require,module,exports){
+module.exports = runConfig;
+
+function runConfig($rootScope, stateService){
+	
+	$rootScope.$on("$stateChangeSuccess", function(event, toState, toParams, fromState, fromParams, error){
+		stateService.updateCurrentState();
+	});
+}
+},{}],12:[function(require,module,exports){
 module.exports = workforceConfig;
 
 
@@ -262,28 +337,51 @@ function workforceConfig($stateProvider, $urlRouterProvider, $mdThemingProvider)
 		.accentPalette("pink")
 		.warnPalette("red");
 
-	$urlRouterProvider.otherwise("/");
+	$urlRouterProvider
+		.when("/dashboard/settings", "/dashboard/settings/profile")
+		.when("/dashboard/settings/", "/dashboard/settings/profile")
+		.otherwise("/");
 
 	$stateProvider
 		.state("index", {
 			url: "/",
+			title: "Index",
 			template: "<main-Component>Loading...</main-Component>"
 		})
 		.state("login", {
 			url: "/login",
+			title: "Login",
 			template: "<login-Component>Loading...</login-Component>"
 		})
 		.state("register", {
 			url: "/register",
+			title: "Register",
 			template: "<register-Component>Loading...</register-Component>"
 		})
 		.state("dashboard", {
 			url: "/dashboard",
+			title: "Dashboard",
 			template: "<dashboard-Component>Loading...</dashboard-Component>"
 		})
 		.state("dashboard.explore", {
 			url: "/explore",
+			title: "Explore",
 			template: "<explore-Component>Loading...</explore-Component>"
+		})
+		.state("dashboard.settings", {
+			url: "/settings",
+			title: "Settings",
+			template: "<settings-Component>Loading...</settings-Component>"
+		})
+		.state("dashboard.settings.profile", {
+			url: "/profile",
+			title: "Profile Settings",
+			template: "<profile-Component>Loading...</profile-Component>"
+		})
+		.state("dashboard.settings.account", {
+			url: "/account",
+			title: "Account Settings",
+			template: "<account-Component>Loading...</account-Component>"
 		})
 		.state("login.github", {
 			url: "/login/auth",
@@ -300,7 +398,7 @@ function workforceConfig($stateProvider, $urlRouterProvider, $mdThemingProvider)
 			}
 		});
 }
-},{}],9:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 var angular = require("angular");
 var angular_material = require("angular-material");
 var angular_aria = require("angular-aria");
@@ -317,8 +415,10 @@ var workforceApp = angular.module("workforceApp", [
 	]);
 
 workforceApp.config(require("./config/workforceConfig"));
+workforceApp.run(require("./config/runConfig"));
 
-workforceApp.service("dialogService", require("./services/dialogService"))
+workforceApp.service("dialogService", require("./services/dialogService"));
+workforceApp.service("stateService", require("./services/stateService"));
 
 
 workforceApp.directive("mainComponent", require("./components/mainComponent"));
@@ -327,9 +427,14 @@ workforceApp.directive("loginComponent", require("./components/loginComponent"))
 workforceApp.directive("registerComponent", require("./components/registerComponent"));
 workforceApp.directive("dashboardComponent", require("./components/dashboardComponent"));
 
+workforceApp.directive("settingsComponent", require("./components/settingsComponent"));
+workforceApp.directive("profileComponent", require("./components/profileComponent"));
+workforceApp.directive("accountComponent", require("./components/accountComponent"));
+
 workforceApp.directive("exploreComponent", require("./components/exploreComponent"));
 workforceApp.directive("mapComponent", require("./components/mapComponent"));
-},{"./components/dashboardComponent":1,"./components/exploreComponent":2,"./components/loginComponent":3,"./components/mainComponent":4,"./components/mapComponent":5,"./components/navComponent":6,"./components/registerComponent":7,"./config/workforceConfig":8,"./services/dialogService":10,"angular":19,"angular-animate":12,"angular-aria":14,"angular-material":16,"angular-ui-router":17}],10:[function(require,module,exports){
+
+},{"./components/accountComponent":1,"./components/dashboardComponent":2,"./components/exploreComponent":3,"./components/loginComponent":4,"./components/mainComponent":5,"./components/mapComponent":6,"./components/navComponent":7,"./components/profileComponent":8,"./components/registerComponent":9,"./components/settingsComponent":10,"./config/runConfig":11,"./config/workforceConfig":12,"./services/dialogService":14,"./services/stateService":15,"angular":24,"angular-animate":17,"angular-aria":19,"angular-material":21,"angular-ui-router":22}],14:[function(require,module,exports){
 module.exports = dialogService;
 
 function dialogService($mdDialog){
@@ -340,7 +445,6 @@ function dialogService($mdDialog){
 	function showDialog(dialogConfig){
 		$mdDialog.show({
 			parent: angular.element(document.body),
-			targetEvent: dialogConfig.event,
 			templateUrl: dialogConfig.templateUrl,
 			controller: dialogConfig.controller,
 			clickOutsideToClose: true,
@@ -349,12 +453,25 @@ function dialogService($mdDialog){
 		});
 	}
 
-	function closeDialog(event){
+	function closeDialog(){
 		$mdDialog.hide();
-		$mdDialog.cancel();
 	}
 }
-},{}],11:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
+module.exports = stateService;
+
+function stateService($state){
+	var self = this;
+	self.stateName = {};
+	self.updateCurrentState = updateCurrentState;
+
+	function updateCurrentState(){
+		console.log($state);
+		self.stateName.title = $state.current.title;	
+	}
+
+}
+},{}],16:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.7
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -4502,11 +4619,11 @@ angular.module('ngAnimate', [])
 
 })(window, window.angular);
 
-},{}],12:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 require('./angular-animate');
 module.exports = 'ngAnimate';
 
-},{"./angular-animate":11}],13:[function(require,module,exports){
+},{"./angular-animate":16}],18:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.7
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -4913,11 +5030,11 @@ ngAriaModule.directive('ngShow', ['$aria', function($aria) {
 
 })(window, window.angular);
 
-},{}],14:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 require('./angular-aria');
 module.exports = 'ngAria';
 
-},{"./angular-aria":13}],15:[function(require,module,exports){
+},{"./angular-aria":18}],20:[function(require,module,exports){
 /*!
  * Angular Material Design
  * https://github.com/angular/material
@@ -35604,7 +35721,7 @@ angular.module("material.core").constant("$MD_THEME_CSS", "/*  Only used with Th
 
 
 })(window, window.angular);;window.ngMaterial={version:{full: "1.1.0-rc.5"}};
-},{}],16:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 // Should already be required, here for clarity
 require('angular');
 
@@ -35618,7 +35735,7 @@ require('./angular-material');
 // Export namespace
 module.exports = 'ngMaterial';
 
-},{"./angular-material":15,"angular":19,"angular-animate":12,"angular-aria":14}],17:[function(require,module,exports){
+},{"./angular-material":20,"angular":24,"angular-animate":17,"angular-aria":19}],22:[function(require,module,exports){
 /**
  * State-based routing for AngularJS
  * @version v0.3.1
@@ -40195,7 +40312,7 @@ angular.module('ui.router.state')
   .filter('isState', $IsStateFilter)
   .filter('includedByState', $IncludedByStateFilter);
 })(window, window.angular);
-},{}],18:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.7
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -71669,8 +71786,8 @@ $provide.value("$locale", {
 })(window);
 
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
-},{}],19:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 require('./angular');
 module.exports = angular;
 
-},{"./angular":18}]},{},[9]);
+},{"./angular":23}]},{},[13]);

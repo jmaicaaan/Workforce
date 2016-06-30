@@ -5,7 +5,7 @@
 				<md-button class="md-icon-button" aria-label="menu" ng-click="vm.openNav($event)">
 					<md-icon md-svg-icon="../node_modules/material-design-icons/navigation/svg/design/ic_menu_18px.svg"></md-icon>
 				</md-button>
-				<h5> <span style="color: white;"> Workforce </span> </h5>
+				<h5> <span style="color: white;"> {{vm.stateTitle.title}} </span> </h5>
 
 				<span flex></span>
 			</div>
@@ -38,7 +38,7 @@
 						<md-icon md-svg-icon="../node_modules/material-design-icons/action/svg/design/ic_explore_24px.svg"></md-icon>
 						<p class="md-body-2">Explore</p>
 					</md-list-item>
-					<md-list-item ui-sref="login">
+					<md-list-item ui-sref="dashboard.settings">
 						<md-icon md-svg-icon="../node_modules/material-design-icons/action/svg/design/ic_settings_24px.svg"></md-icon>
 						<p class="md-body-2">Settings</p>
 					</md-list-item>	

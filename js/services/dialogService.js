@@ -8,7 +8,6 @@ function dialogService($mdDialog){
 	function showDialog(dialogConfig){
 		$mdDialog.show({
 			parent: angular.element(document.body),
-			targetEvent: dialogConfig.event,
 			templateUrl: dialogConfig.templateUrl,
 			controller: dialogConfig.controller,
 			clickOutsideToClose: true,
@@ -17,8 +16,7 @@ function dialogService($mdDialog){
 		});
 	}
 
-	function closeDialog(event){
+	function closeDialog(){
 		$mdDialog.hide();
-		$mdDialog.cancel();
 	}
 }

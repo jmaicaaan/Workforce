@@ -7,7 +7,7 @@ function mainComponent(){
 		restrict: "E",
 		templateUrl: "../../views/main.html",
 		link: linker,
-		controller: control,
+		controller: mainComponentController,
 		controllerAs: "vm"
 	};
 
@@ -15,7 +15,7 @@ function mainComponent(){
 		
 	}
 
-	function control($mdSidenav, $mdPanel){
+	function mainComponentController($mdSidenav, $mdPanel){
 		var self = this;
 
 		self.openNav = openNav;

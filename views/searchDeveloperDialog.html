@@ -1,5 +1,4 @@
 <md-dialog aria-label="Search" style="width: 50%;">
-  <form>
     <md-toolbar>
       <div class="md-toolbar-tools">
         <h2>Search Developer</h2>
@@ -15,12 +14,11 @@
       </div>
     </md-dialog-content>
     <md-dialog-actions layout="row">
-      <md-button class="md-primary" ng-click="vm.closeSearchDialog()">
+      <md-button class="md-primary" ng-click="vm.closeSearchDialog($event)">
         Cancel
       </md-button>
       <md-button class="md-primary md-raised">
         Search
       </md-button>
     </md-dialog-actions>
-  </form>
 </md-dialog>

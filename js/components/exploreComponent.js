@@ -7,7 +7,7 @@ function exploreComponent(){
 		restrict: "E",
 		templateUrl: "../../views/explore.html",
 		link: linker,
-		controller: control,
+		controller: exploreComponentController,
 		controllerAs: "vm"
 	};
 
@@ -15,7 +15,7 @@ function exploreComponent(){
 
 	}
 
-	function control(){
+	function exploreComponentController(){
 		var self = this;
 	}
 }

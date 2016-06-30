@@ -6,7 +6,7 @@ function registerComponent(){
 		restrict: "E",
 		templateUrl: "../../views/register.html",
 		link: linker,
-		controller: control,
+		controller: registerComponentController,
 		controllerAs: "vm"
 	};
 
@@ -14,7 +14,7 @@ function registerComponent(){
 
 	}
 
-	function control(){
+	function registerComponentController(){
 		var self = this;
 	}
 }

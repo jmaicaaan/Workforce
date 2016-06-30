@@ -6,7 +6,7 @@ function loginComponent(){
 		restrict: "E",
 		templateUrl: "../../views/login.html",
 		link: linker,
-		controller: control,
+		controller: loginComponentController,
 		controllerAs: "vm"
 	};
 
@@ -14,7 +14,7 @@ function loginComponent(){
 
 	}
 
-	function control($state){
+	function loginComponentController($state){
 		var self = this;
 
 		self.user = {};
