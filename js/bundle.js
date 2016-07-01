@@ -1,7 +1,7 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 module.exports = accountComponent;
 
-function accountComponent(){
+function accountComponent($timeout){
 	return {
 		scope: {},
 		restrict: "E",
@@ -12,7 +12,7 @@ function accountComponent(){
 	};
 
 	function linker(scope, elem, attrs){
-
+		
 	}
 
 	function accountComponentController(){
@@ -20,6 +20,27 @@ function accountComponent(){
 	}
 }
 },{}],2:[function(require,module,exports){
+module.exports = activateAccountComponent;
+
+function activateAccountComponent(){
+	return{
+		scope: {},
+		restrict: "E",
+		templateUrl: "../../views/activateAccount.html",
+		link: linker,
+		controller: activateAccountController,
+		controllerAs: "vm"
+	};
+
+	function linker(scope, elem, attrs){
+
+	}
+
+	function activateAccountController(){
+		var self = this;
+	}
+}
+},{}],3:[function(require,module,exports){
 module.exports = dashboardComponent;
 
 function dashboardComponent(){
@@ -46,7 +67,7 @@ function dashboardComponent(){
 		}
 	}
 }
-},{}],3:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 module.exports = exploreComponent;
 
 
@@ -68,7 +89,7 @@ function exploreComponent(){
 		var self = this;
 	}
 }
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 module.exports = loginComponent;
 
 function loginComponent(){
@@ -100,7 +121,7 @@ function loginComponent(){
 		}
 	}
 }
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 module.exports = mainComponent;
 
 function mainComponent(){
@@ -128,11 +149,11 @@ function mainComponent(){
 		}
 	}
 }
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 module.exports = mapComponent;
 
 
-function mapComponent($mdDialog, dialogService, $window){
+function mapComponent($mdDialog, dialogService, $window, mapService){
 	return {
 		scope: {},
 		restrict: "E",
@@ -145,65 +166,26 @@ function mapComponent($mdDialog, dialogService, $window){
 	function linker(scope, elem, attrs){
 		var map = elem[0].querySelector("#map");
 		var bounds = new google.maps.LatLngBounds();
-		var position = {lat: 14.5995, lng: 120.9842, desc: "Manila"}
-		var mapOptions = {
-				center: position,
-				zoom: 10,
-				mapTypeId: google.maps.MapTypeId.ROADMAP
-			};
-	
-		var gMap = new google.maps.Map(map, mapOptions);
 
-		createMarker(position);
+		var googleMap = mapService.createMap(map);
 
-		for(var i = 0; i <= 4; i++){
-			var pos = [
-				{lat: 14.5176, lng: 121.0509, title: "Baguio City", desc: "Baguio City"},
-				{lat: 14.5547, lng: 121.0244, title: "Makati City", desc: "Makati City"},
-				{lat: 14.6760, lng: 121.0437, title: "Quezon City", desc: "Quezon City"},
-				{lat: 14.4793, lng: 121.0198, title: "Parañaque City", desc: "Parañaque City"},
-				{lat: 14.5794, lng: 121.0359, title: "Mandaluyong City", desc: "Mandaluyong City"}
-			];
-			createMarker(pos[i]);
-		}
+		var pos = [
+			{position: {lat: 14.5995, lng: 120.9842}, title: "Manila City", desc: "Manila City"},
+			{position: {lat: 14.5176, lng: 121.0509}, title: "Baguio City", desc: "Baguio City"},
+			{position: {lat: 14.5547, lng: 121.0244}, title: "Makati City", desc: "Makati City"},
+			{position: {lat: 14.6760, lng: 121.0437}, title: "Quezon City", desc: "Quezon City"},
+			{position: {lat: 14.4793, lng: 121.0198}, title: "Parañaque City", desc: "Parañaque City"},
+			{position: {lat: 14.5794, lng: 121.0359}, title: "Mandaluyong City", desc: "Mandaluyong City"}
+		];
 
-		gMap.fitBounds(bounds);
 
-		function createMarker(location){
-			var marker = new google.maps.Marker({
-				position: location,
-				map: gMap,
-				title: location.title,
-				desc: location.desc
-			});
+		for(var i = 0; i <= pos.length - 1; i++){
 
+			var marker = mapService.createMapMarker(googleMap, pos[i]);
 			bounds.extend(marker.position);
-
-			marker.addListener("click", function(event){
-
-				var selectedDeveloper = this;
-				var dialogConfig = {
-					event: event,
-					templateUrl: "../../views/contactDeveloperDialog.html",
-					controller: control,
-					locals: {
-						developer: selectedDeveloper
-					}
-				};
-
-				function control(developer){
-					var self = this;
-					self.developer = developer;
-					self.closeSearchDialog = closeSearchDialog;
-
-					function closeSearchDialog(){
-						dialogService.closeDialog();
-					}
-				}
-
-				dialogService.showDialog(dialogConfig);
-			});
 		}
+
+		googleMap.fitBounds(bounds);
 	}
 
 	function mapComponentController(){
@@ -231,7 +213,7 @@ function mapComponent($mdDialog, dialogService, $window){
 		}
 	}
 }
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 module.exports = navComponent;
 
 function navComponent($mdSidenav){
@@ -251,7 +233,7 @@ function navComponent($mdSidenav){
 		}
 	}
 }
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 module.exports = profileComponent;
 
 function profileComponent(){
@@ -272,7 +254,7 @@ function profileComponent(){
 		var self = this;
 	}
 }
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 module.exports = registerComponent;
 
 function registerComponent(){
@@ -293,7 +275,7 @@ function registerComponent(){
 		var self = this;
 	}
 }
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 module.exports = settingsComponent;
 
 function settingsComponent(){
@@ -316,7 +298,7 @@ function settingsComponent(){
 
 	}
 }
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 module.exports = runConfig;
 
 function runConfig($rootScope, stateService){
@@ -325,7 +307,7 @@ function runConfig($rootScope, stateService){
 		stateService.updateCurrentState();
 	});
 }
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 module.exports = workforceConfig;
 
 
@@ -383,6 +365,10 @@ function workforceConfig($stateProvider, $urlRouterProvider, $mdThemingProvider)
 			title: "Account Settings",
 			template: "<account-Component>Loading...</account-Component>"
 		})
+		.state("activateAccount", {
+			url: "/activate",
+			template: "<activate-Account-Component>Loading...</activate-Account-Component>"
+		})
 		.state("login.github", {
 			url: "/login/auth",
 			template: "github"
@@ -398,7 +384,7 @@ function workforceConfig($stateProvider, $urlRouterProvider, $mdThemingProvider)
 			}
 		});
 }
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 var angular = require("angular");
 var angular_material = require("angular-material");
 var angular_aria = require("angular-aria");
@@ -419,10 +405,13 @@ workforceApp.run(require("./config/runConfig"));
 
 workforceApp.service("dialogService", require("./services/dialogService"));
 workforceApp.service("stateService", require("./services/stateService"));
+workforceApp.service("mapService", require("./services/mapService"));
 
 
 workforceApp.directive("mainComponent", require("./components/mainComponent"));
 workforceApp.directive("navComponent", require("./components/navComponent"));
+workforceApp.directive("activateAccountComponent", require("./components/activateAccountComponent"));
+
 workforceApp.directive("loginComponent", require("./components/loginComponent"));
 workforceApp.directive("registerComponent", require("./components/registerComponent"));
 workforceApp.directive("dashboardComponent", require("./components/dashboardComponent"));
@@ -434,7 +423,7 @@ workforceApp.directive("accountComponent", require("./components/accountComponen
 workforceApp.directive("exploreComponent", require("./components/exploreComponent"));
 workforceApp.directive("mapComponent", require("./components/mapComponent"));
 
-},{"./components/accountComponent":1,"./components/dashboardComponent":2,"./components/exploreComponent":3,"./components/loginComponent":4,"./components/mainComponent":5,"./components/mapComponent":6,"./components/navComponent":7,"./components/profileComponent":8,"./components/registerComponent":9,"./components/settingsComponent":10,"./config/runConfig":11,"./config/workforceConfig":12,"./services/dialogService":14,"./services/stateService":15,"angular":24,"angular-animate":17,"angular-aria":19,"angular-material":21,"angular-ui-router":22}],14:[function(require,module,exports){
+},{"./components/accountComponent":1,"./components/activateAccountComponent":2,"./components/dashboardComponent":3,"./components/exploreComponent":4,"./components/loginComponent":5,"./components/mainComponent":6,"./components/mapComponent":7,"./components/navComponent":8,"./components/profileComponent":9,"./components/registerComponent":10,"./components/settingsComponent":11,"./config/runConfig":12,"./config/workforceConfig":13,"./services/dialogService":15,"./services/mapService":16,"./services/stateService":17,"angular":26,"angular-animate":19,"angular-aria":21,"angular-material":23,"angular-ui-router":24}],15:[function(require,module,exports){
 module.exports = dialogService;
 
 function dialogService($mdDialog){
@@ -457,7 +446,61 @@ function dialogService($mdDialog){
 		$mdDialog.hide();
 	}
 }
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
+module.exports = mapService;
+
+function mapService(dialogService){
+	var self = this;
+	self.createMap = createMap;
+	self.createMapMarker = createMapMarker;
+
+	function createMap(mapElement){
+		var mapOptions = {
+			zoom: 10,
+			mapTypeId: google.maps.MapTypeId.ROADMAP
+		};
+		var map = new google.maps.Map(mapElement, mapOptions);
+		return map;
+	}
+
+	function createMapMarker(map, location){
+		var marker = new google.maps.Marker({
+			map: map,
+			position: location.position,
+			title: location.title,
+			desc: location.desc
+		});
+
+		marker.addListener("click", markerClickListener);
+
+		function markerClickListener(event){
+			
+			var selectedDeveloper = this;
+			var dialogConfig = {
+				event: event,
+				templateUrl: "../../views/contactDeveloperDialog.html",
+				controller: control,
+				locals: {
+					developer: selectedDeveloper
+				}
+			};
+
+			function control(developer){
+				var self = this;
+				self.developer = developer;
+				self.closeSearchDialog = closeSearchDialog;
+
+				function closeSearchDialog(){
+					dialogService.closeDialog();
+				}
+			}
+			dialogService.showDialog(dialogConfig);
+		}
+
+		return marker;
+	}
+}
+},{}],17:[function(require,module,exports){
 module.exports = stateService;
 
 function stateService($state){
@@ -466,12 +509,11 @@ function stateService($state){
 	self.updateCurrentState = updateCurrentState;
 
 	function updateCurrentState(){
-		console.log($state);
 		self.stateName.title = $state.current.title;	
 	}
 
 }
-},{}],16:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.7
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -4619,11 +4661,11 @@ angular.module('ngAnimate', [])
 
 })(window, window.angular);
 
-},{}],17:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 require('./angular-animate');
 module.exports = 'ngAnimate';
 
-},{"./angular-animate":16}],18:[function(require,module,exports){
+},{"./angular-animate":18}],20:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.7
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -5030,11 +5072,11 @@ ngAriaModule.directive('ngShow', ['$aria', function($aria) {
 
 })(window, window.angular);
 
-},{}],19:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 require('./angular-aria');
 module.exports = 'ngAria';
 
-},{"./angular-aria":18}],20:[function(require,module,exports){
+},{"./angular-aria":20}],22:[function(require,module,exports){
 /*!
  * Angular Material Design
  * https://github.com/angular/material
@@ -35721,7 +35763,7 @@ angular.module("material.core").constant("$MD_THEME_CSS", "/*  Only used with Th
 
 
 })(window, window.angular);;window.ngMaterial={version:{full: "1.1.0-rc.5"}};
-},{}],21:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 // Should already be required, here for clarity
 require('angular');
 
@@ -35735,7 +35777,7 @@ require('./angular-material');
 // Export namespace
 module.exports = 'ngMaterial';
 
-},{"./angular-material":20,"angular":24,"angular-animate":17,"angular-aria":19}],22:[function(require,module,exports){
+},{"./angular-material":22,"angular":26,"angular-animate":19,"angular-aria":21}],24:[function(require,module,exports){
 /**
  * State-based routing for AngularJS
  * @version v0.3.1
@@ -40312,7 +40354,7 @@ angular.module('ui.router.state')
   .filter('isState', $IsStateFilter)
   .filter('includedByState', $IncludedByStateFilter);
 })(window, window.angular);
-},{}],23:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.7
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -71786,8 +71828,8 @@ $provide.value("$locale", {
 })(window);
 
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
-},{}],24:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 require('./angular');
 module.exports = angular;
 
-},{"./angular":23}]},{},[13]);
+},{"./angular":25}]},{},[14]);

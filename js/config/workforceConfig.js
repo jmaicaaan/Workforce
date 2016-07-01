@@ -55,6 +55,10 @@ function workforceConfig($stateProvider, $urlRouterProvider, $mdThemingProvider)
 			title: "Account Settings",
 			template: "<account-Component>Loading...</account-Component>"
 		})
+		.state("activateAccount", {
+			url: "/activate",
+			template: "<activate-Account-Component>Loading...</activate-Account-Component>"
+		})
 		.state("login.github", {
 			url: "/login/auth",
 			template: "github"

@@ -6,7 +6,6 @@ function stateService($state){
 	self.updateCurrentState = updateCurrentState;
 
 	function updateCurrentState(){
-		console.log($state);
 		self.stateName.title = $state.current.title;	
 	}
 

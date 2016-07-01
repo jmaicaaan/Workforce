@@ -1,6 +1,6 @@
 module.exports = accountComponent;
 
-function accountComponent(){
+function accountComponent($timeout){
 	return {
 		scope: {},
 		restrict: "E",
@@ -11,7 +11,7 @@ function accountComponent(){
 	};
 
 	function linker(scope, elem, attrs){
-
+		
 	}
 
 	function accountComponentController(){

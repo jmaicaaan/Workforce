@@ -1,14 +1,23 @@
 <div layout="column">
-	<div layout="column" layout-align="center center" layout-padding>
-		<div style="width: 100%;">
+	<div>
+		<md-toolbar>
+			<div class="md-toolbar-tools md-hue-1 md-whiteframe-2dp">
+				<h5> <a href="#" ui-sref="index"><span style="color: white;">Workforce</span></a></h5>
+				<span flex></span>
+			</div>
+		</md-toolbar>
+	</div>
+	<div layout="column" layout-align="center center">
+		<div style="width: 100%;" layout-padding>
 			<md-card>
 				<md-toolbar>
 					<div class="md-toolbar-tools md-whiteframe-2dp">
-						<h5><span style="color: white;">Change Password</span></h5>
+						<h5><span style="color: white;">Activate Account</span></h5>
 						<span flex></span>
 					</div>
 				</md-toolbar>
 				<md-card-content>
+					<span class="md-caption">*Enter the default password as old password to activate your account.</span>
 					<form autocomplete="off">
 						<div layout="column">
 							<md-input-container>
@@ -27,35 +36,12 @@
 							<div layout="row" layout-align="end end">
 								<div>
 									<md-button class="md-primary md-raised">
-										Update Password
+										Activate Account
 									</md-button>
 								</div>
 							</div>
 						</div>
 					</form>
-				</md-card-content>
-			</md-card>
-		</div>
-
-		<div style="width: 100%;">
-			<md-card>
-				<md-toolbar class="md-warn">
-					<div class="md-toolbar-tools md-whiteframe-2dp">
-						<h5><span style="color: white;">Delete Account</span></h5>
-						<span flex></span>
-					</div>
-				</md-toolbar>
-				<md-card-content>
-					<div layout="column">
-						<span> Once you delete your account, you can no longer get it back. </span>
-						<div layout="row" layout-align="end end">
-							<div>
-								<md-button class="md-primary md-raised">
-									Delete Account
-								</md-button>
-							</div>
-						</div>
-					</div>
 				</md-card-content>
 			</md-card>
 		</div>

@@ -18,10 +18,13 @@ workforceApp.run(require("./config/runConfig"));
 
 workforceApp.service("dialogService", require("./services/dialogService"));
 workforceApp.service("stateService", require("./services/stateService"));
+workforceApp.service("mapService", require("./services/mapService"));
 
 
 workforceApp.directive("mainComponent", require("./components/mainComponent"));
 workforceApp.directive("navComponent", require("./components/navComponent"));
+workforceApp.directive("activateAccountComponent", require("./components/activateAccountComponent"));
+
 workforceApp.directive("loginComponent", require("./components/loginComponent"));
 workforceApp.directive("registerComponent", require("./components/registerComponent"));
 workforceApp.directive("dashboardComponent", require("./components/dashboardComponent"));

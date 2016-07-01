@@ -1,15 +1,27 @@
-READ <a href="http://www.uxforthemasses.com/login-page/"> THIS </a>
-
 <div layout="column" style="height: 100%">
 	<div layout="row" layout-align="center center" style="height: 100%">
 		<md-card style="width: 40%;">
-			<md-card-header>
-				<md-card-header-text>
-					<div layout="column" layout-align="center center">
-						<h1 class="md-display-1">SIGN IN</h1>
+			<md-toolbar class="md-tall">
+				<div class="md-toolbar-tools githubLogin" layout-padding>
+					<div layout="row">
+						<div>
+							<img src="views/img/github.png" class="md-user-avatar"/>
+						</div>
+						<div layout-margin>
+							<p class="md-body-1">Login with Github</p>
+							<p class="md-body-1">or fill the form below</p>
+						</div>
 					</div>
-				</md-card-header-text>
-			</md-card-header>
+					<span flex></span>
+					<div>
+						<md-button class="md-icon-button" aria-label="menu">
+							<md-icon 
+								md-svg-icon="../node_modules/material-design-icons/navigation/svg/design/ic_arrow_forward_18px.svg">
+							</md-icon>
+						</md-button>
+					</div>
+				</div>
+			</md-toolbar>
 			<md-card-content>
 				<form autocomplete="off">
 					<div layout="column">
@@ -22,28 +34,17 @@ READ <a href="http://www.uxforthemasses.com/login-page/"> THIS </a>
 							<input ng-model="vm.user.password" type="password">
 						</md-input-container>
 
-						<div layout="row" layout-align="end end">
+						<div layout="row" >
 							<span class="md-caption" style="color: gray;">Forgot your password?</span>
 						</div>
 
 						<br/>
 						<br/>
 
-						<div layout="row">
-							<div flex>
-								<md-button class="md-primary">
-									Sign Up
-								</md-button>
-								<md-button class="md-primary md-raised" ng-click="vm.login(vm.user);">
-									Login
-								</md-button>
-							</div>
-							<div flex="20">
-								<span class="md-caption" style="color: gray"> Or login with </span>
-							</div>
-							<div flex="10">
-								<img src="views/img/github.png" class="md-user-avatar"/>
-							</div>
+						<div layout="column">
+							<md-button class="md-primary md-raised" ng-click="vm.login(vm.user);">
+								Login
+							</md-button>
 						</div>
 					</div>
 				</form>
