@@ -1,0 +1,38 @@
+[
+	{
+		"CompanyName": "Willis Towers Watson",
+		"Email": "willistowerswatson_workforce@gmail.com",
+		"Website": "https://www.willistowerswatson.com/en",
+		"ImageURL": "http://cicpac.com/wp-content/uploads/2015/07/WSBF7qtg.jpg"
+	},
+	{
+		"CompanyName": "Accenture",
+		"Email": "accenture_workforce@gmail.com",
+		"Website": "https://www.accenture.com/ph-en",
+		"ImageURL":"http://www.brandsoftheworld.com/sites/default/files/styles/logo-thumbnail/public/0015/2593/brand.gif?itok=HskBZ97Y"
+	},
+	{
+		"CompanyName": "Hewlett-Packard",
+		"Email": "hewlettpackard_workforce@gmail.com",
+		"Website": "http://www8.hp.com/ph/en/home.html",
+		"ImageURL":"http://www.brandsoftheworld.com/sites/default/files/styles/logo-thumbnail/public/0024/8548/brand.gif?itok=GBxhXRdq"
+	},
+	{
+		"CompanyName": "JPMorgan Chase & Co.",
+		"Email": "jpmorganchase_workforce@gmail.com",
+		"Website": "https://www.jpmorganchase.com/",
+		"ImageURL": "https://stocksaints.com/sites/default/files/styles/article_image_full_node/public/field/image/JPMorgan%20Chase%20%26%20Co._1.jpg?itok=K2y5-1jw"
+	},
+	{
+		"CompanyName": "Wells Fargo",
+		"Email": "wellsfargo_workforce@gmail.com",
+		"Website": "https://www.wellsfargo.com",
+		"ImageURL":" https://www01.wellsfargomedia.com/assets/images/global/wf-logo.gif"
+	},
+	{
+		"CompanyName": "Toyota",
+		"Email": "toyota_workforce@gmail.com",
+		"Website": "http://www.toyota.com.ph/",
+		"ImageURL":"http://www.brandsoftheworld.com/sites/default/files/styles/logo-thumbnail/public/0000/3428/brand.gif?itok=Y52aPAAv"
+	}
+]

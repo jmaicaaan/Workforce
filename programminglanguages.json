@@ -1,0 +1,42 @@
+[
+	{
+		"Name": "SQL",
+		"Website": "https://en.wikipedia.org/wiki/SQL"
+	},
+	{
+		"Name": "Java",
+		"Website": "https://en.wikipedia.org/wiki/Java"
+	},
+	{
+		"Name": "Javascript",
+		"Website": "https://en.wikipedia.org/wiki/JavaScript"
+	},
+	{
+		"Name": "C#",
+		"Website": "https://en.wikipedia.org/wiki/C_Sharp_(programming_language)"
+	},
+	{
+		"Name": "C++",
+		"Website": "https://en.wikipedia.org/wiki/C_(programming_language)"
+	},
+	{
+		"Name": "Python",
+		"Website": "https://en.wikipedia.org/wiki/Python_(programming_language)"
+	},
+	{
+		"Name": "PHP",
+		"Website": "https://en.wikipedia.org/wiki/PHP_(programming_language)"
+	},
+	{
+		"Name": "Ruby on Rails",
+		"Website": "https://en.wikipedia.org/wiki/Ruby_on_Rails"
+	},
+	{
+		"Name": "Swift",
+		"Website": "https://en.wikipedia.org/wiki/Swift_(programming_language)"
+	},
+	{
+		"Name": "Perl",
+		"Website": "https://en.wikipedia.org/wiki/Perl_(programming_language)"
+	},
+]
