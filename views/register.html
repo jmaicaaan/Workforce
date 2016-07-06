@@ -1,47 +1,49 @@
 <div layout="column" style="height: 100%">
 	<div layout="row" layout-align="center center" style="height: 100%">
 		<md-card style="width: 40%;">
-			<md-card-header>
-				<md-card-header-text>
-					<div layout="column" layout-align="center center">
-						<h1 class="md-display-1">SIGN UP</h1>
-					</div>
-				</md-card-header-text>
-			</md-card-header>
-			<md-card-content>
-				<div layout="column">
-					<md-input-container>
-						<label>Email</label>
-						<input ng-model="vm.user.email">
-					</md-input-container>
-					<md-input-container>
-						<label>Password</label>
-						<input ng-model="vm.user.password" type="password">
-					</md-input-container>
-					<md-input-container>
-						<label>Confirm Password</label>
-						<input ng-model="vm.user.confirmPassword" type="password">
-					</md-input-container>
-
-					<br/>
-					<br/>
-
+			<md-toolbar class="md-tall md-warn">
+				<div class="md-toolbar-tools githubLogin" layout-padding>
 					<div layout="row">
-						<div flex>
-							<md-button class="md-primary md-raised" ui-sref="register">
-								Sign Up
-							</md-button>
-							<md-button class="md-primary" ui-sref="login">
-								Login
-							</md-button>
-						</div>
-						<div flex="20">
-							<span class="md-caption" style="color: gray"> Or sign-up with </span>
-						</div>
-						<div flex="10">
+						<div>
 							<img src="views/img/github.png" class="md-user-avatar"/>
 						</div>
+						<div layout-margin>
+							<p class="md-body-1">Sign up with Github</p>
+							<p class="md-body-1">or fill the form below</p>
+						</div>
 					</div>
+					<span flex></span>
+					<div>
+						<md-button class="md-icon-button" aria-label="menu" ng-click="vm.githubLogin();">
+							<md-icon 
+								md-svg-icon="../node_modules/material-design-icons/navigation/svg/design/ic_arrow_forward_18px.svg">
+							</md-icon>
+						</md-button>
+					</div>
+				</div>
+			</md-toolbar>
+			<md-card-content>
+				<form autocomplete="off">
+					<div layout="column">
+						<md-input-container>
+							<label>Email</label>
+							<input ng-model="vm.user.email">
+						</md-input-container>
+						<md-input-container>
+							<label>Password</label>
+							<input ng-model="vm.user.password" type="password">
+						</md-input-container>
+
+						<br/>
+						<br/>
+
+						<div layout="column">
+							<md-button class="md-warn md-raised" ng-click="vm.register(vm.user);">
+								Sign Up
+							</md-button>
+						</div>
+					</div>
+				</form>
 			</md-card-content>
 		</md-card>
 	</div>

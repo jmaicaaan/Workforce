@@ -10,7 +10,7 @@ function mapComponent($mdDialog, dialogService, $window, mapService){
 		controller: mapComponentController,
 		controllerAs: "vm"
 	};
-
+ 
 	function linker(scope, elem, attrs){
 		var map = elem[0].querySelector("#map");
 		var bounds = new google.maps.LatLngBounds();

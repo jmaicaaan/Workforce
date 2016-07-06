@@ -5,7 +5,6 @@ var angular_animate = require("angular-animate");
 var ui_router = require("angular-ui-router");
 
 
-
 var workforceApp = angular.module("workforceApp", [
 		angular_aria,
 		angular_animate,
@@ -14,11 +13,16 @@ var workforceApp = angular.module("workforceApp", [
 	]);
 
 workforceApp.config(require("./config/workforceConfig"));
+workforceApp.constant("serverConfig", require("./config/serverConfig"));
 workforceApp.run(require("./config/runConfig"));
 
+workforceApp.service("httpClientService", require("./services/httpClientService"));
 workforceApp.service("dialogService", require("./services/dialogService"));
 workforceApp.service("stateService", require("./services/stateService"));
 workforceApp.service("mapService", require("./services/mapService"));
+workforceApp.service("githubService", require("./services/githubService"));
+workforceApp.service("loginService", require("./services/loginService"));
+
 
 
 workforceApp.directive("mainComponent", require("./components/mainComponent"));

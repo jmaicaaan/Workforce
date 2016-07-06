@@ -10,22 +10,33 @@ function loginComponent(){
 		controllerAs: "vm"
 	};
 
-	function linker(scope, elem, attrs){
+	function linker(scope, elem, attrs){}
 
-	}
-
-	function loginComponentController($state){
+	function loginComponentController($state, githubService, loginService){
 		var self = this;
-
 		self.user = {};
 		self.login = login;
+		self.githubLogin = githubLogin;
 
 		function login(){
-			console.log(self.user);
-			if(self.user.email == "admin" && self.user.password == "admin")
-				$state.go("dashboard");
-			else
-				alert("Incorrect email or password.");
+			
+			
+			var actionUrl = "loginAction",
+				actionData = {
+					email: self.user.email,
+					password: self.user.password
+				};
+
+			loginService.login(actionUrl, actionData)
+				.then(function(response){
+					if(response.statusText == "OK"){
+						$state.go("dashboard");
+					}
+				});
+		}
+
+		function githubLogin(){
+			githubService.githubLogin();
 		}
 	}
 }
