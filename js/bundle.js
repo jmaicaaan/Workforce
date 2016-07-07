@@ -112,15 +112,17 @@ function loginComponent(){
 
 		function login(){
 			
-			
 			var actionUrl = "loginAction",
 				actionData = {
-					email: self.user.email,
-					password: self.user.password
+					user: {
+						email: self.user.email,
+						password: self.user.password
+					}
 				};
 
 			loginService.login(actionUrl, actionData)
 				.then(function(response){
+					console.log(response);
 					if(response.statusText == "OK"){
 						$state.go("dashboard");
 					}
