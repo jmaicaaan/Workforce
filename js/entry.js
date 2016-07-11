@@ -22,6 +22,8 @@ workforceApp.service("stateService", require("./services/stateService"));
 workforceApp.service("mapService", require("./services/mapService"));
 workforceApp.service("githubService", require("./services/githubService"));
 workforceApp.service("loginService", require("./services/loginService"));
+workforceApp.service("userService", require("./services/userService"));
+workforceApp.service("participantService", require("./services/participantService"));
 
 
 

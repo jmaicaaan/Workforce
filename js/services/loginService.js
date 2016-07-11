@@ -1,13 +1,14 @@
 module.exports = loginService;
 
-function loginService(httpClientService){
+function loginService(httpClientService, userService){
 	var self = this;
 	self.login = login;
 
-	function login(actionUrl, actionData){
-		return httpClientService.clientRequest(actionUrl, actionData)
+	function login(actionUrl, actionData, withCredential){
+		return httpClientService.clientRequest(actionUrl, actionData, withCredential)
 			.then(function(response){
-				return response;
+				userService.setUserDetails(response.data.user);
+				return response.statusText;
 			});
 	}
 }

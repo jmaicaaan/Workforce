@@ -12,7 +12,7 @@ function loginComponent(){
 
 	function linker(scope, elem, attrs){}
 
-	function loginComponentController($state, githubService, loginService){
+	function loginComponentController($state, githubService, loginService, userService){
 		var self = this;
 		self.user = {};
 		self.login = login;
@@ -20,7 +20,7 @@ function loginComponent(){
 
 		function login(){
 			
-			var actionUrl = "loginAction",
+			var actionUrl = "login",
 				actionData = {
 					user: {
 						email: self.user.email,
@@ -28,10 +28,9 @@ function loginComponent(){
 					}
 				};
 
-			loginService.login(actionUrl, actionData)
-				.then(function(response){
-					console.log(response);
-					if(response.statusText == "OK"){
+			loginService.login(actionUrl, actionData, true)
+				.then(function(statusText){
+					if(statusText == "OK"){
 						$state.go("dashboard");
 					}
 				});

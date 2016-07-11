@@ -57,10 +57,31 @@ function dashboardComponent(){
 
 	}
 
-	function dashboardComponentController($mdSidenav, stateService){
+	function dashboardComponentController($mdSidenav, stateService, userService, participantService){
 		var self = this;
 		self.openNav = openNav;
 		self.stateTitle = stateService.stateName;
+
+		loadDashboardUserDetails();
+
+		function loadDashboardUserDetails(){
+			var actionUrl = "getDashboardUserDetails",
+				actionData = {
+					user: {
+						accessToken: userService.user.accessToken
+					}
+				};
+
+			userService.getDashboardUserDetails(actionUrl, actionData, true)
+				.then(function(response){
+					console.log(response);
+					if(response.statusText == "OK"){
+						if(userService.isUserAParticipant){
+							participantService.setParticipantDetails(response.data.user.participantModel);
+						}
+					}
+				});
+		}
 
 		function openNav(){
 			$mdSidenav("nav").toggle();
@@ -104,7 +125,7 @@ function loginComponent(){
 
 	function linker(scope, elem, attrs){}
 
-	function loginComponentController($state, githubService, loginService){
+	function loginComponentController($state, githubService, loginService, userService){
 		var self = this;
 		self.user = {};
 		self.login = login;
@@ -112,7 +133,7 @@ function loginComponent(){
 
 		function login(){
 			
-			var actionUrl = "loginAction",
+			var actionUrl = "login",
 				actionData = {
 					user: {
 						email: self.user.email,
@@ -120,10 +141,9 @@ function loginComponent(){
 					}
 				};
 
-			loginService.login(actionUrl, actionData)
-				.then(function(response){
-					console.log(response);
-					if(response.statusText == "OK"){
+			loginService.login(actionUrl, actionData, true)
+				.then(function(statusText){
+					if(statusText == "OK"){
 						$state.go("dashboard");
 					}
 				});
@@ -323,7 +343,7 @@ function runConfig($rootScope, stateService){
 },{}],13:[function(require,module,exports){
 module.exports = {	
 	appName: "workforce",
-	host: "http://localhost:8080",
+	host: "http://192.168.1.112:8080",
 	contentType: "application/json",
 	delimeter: "/"
 };
@@ -429,6 +449,8 @@ workforceApp.service("stateService", require("./services/stateService"));
 workforceApp.service("mapService", require("./services/mapService"));
 workforceApp.service("githubService", require("./services/githubService"));
 workforceApp.service("loginService", require("./services/loginService"));
+workforceApp.service("userService", require("./services/userService"));
+workforceApp.service("participantService", require("./services/participantService"));
 
 
 
@@ -447,7 +469,7 @@ workforceApp.directive("accountComponent", require("./components/accountComponen
 workforceApp.directive("exploreComponent", require("./components/exploreComponent"));
 workforceApp.directive("mapComponent", require("./components/mapComponent"));
 
-},{"./components/accountComponent":1,"./components/activateAccountComponent":2,"./components/dashboardComponent":3,"./components/exploreComponent":4,"./components/loginComponent":5,"./components/mainComponent":6,"./components/mapComponent":7,"./components/navComponent":8,"./components/profileComponent":9,"./components/registerComponent":10,"./components/settingsComponent":11,"./config/runConfig":12,"./config/serverConfig":13,"./config/workforceConfig":14,"./services/dialogService":16,"./services/githubService":17,"./services/httpClientService":18,"./services/loginService":19,"./services/mapService":20,"./services/stateService":21,"angular":30,"angular-animate":23,"angular-aria":25,"angular-material":27,"angular-ui-router":28}],16:[function(require,module,exports){
+},{"./components/accountComponent":1,"./components/activateAccountComponent":2,"./components/dashboardComponent":3,"./components/exploreComponent":4,"./components/loginComponent":5,"./components/mainComponent":6,"./components/mapComponent":7,"./components/navComponent":8,"./components/profileComponent":9,"./components/registerComponent":10,"./components/settingsComponent":11,"./config/runConfig":12,"./config/serverConfig":13,"./config/workforceConfig":14,"./services/dialogService":16,"./services/githubService":17,"./services/httpClientService":18,"./services/loginService":19,"./services/mapService":20,"./services/participantService":21,"./services/stateService":22,"./services/userService":23,"angular":32,"angular-animate":25,"angular-aria":27,"angular-material":29,"angular-ui-router":30}],16:[function(require,module,exports){
 module.exports = dialogService;
 
 function dialogService($mdDialog){
@@ -496,14 +518,15 @@ function httpClientService($http, serverConfig){
 	var self = this;
 	self.clientRequest = clientRequest;
 
-	function clientRequest(actionUrl, actionData){
+	function clientRequest(actionUrl, actionData, withCredential){
 		var config = {
 			url: [serverConfig.host, serverConfig.appName, actionUrl].join(serverConfig.delimeter),
 			method: "POST",
 			headers: {
 				"Content-Type": serverConfig.contentType
 			},
-			data: actionData
+			data: actionData,
+			withCredentials: withCredential
 		};
 
 		return $http(config)
@@ -515,17 +538,19 @@ function httpClientService($http, serverConfig){
 },{}],19:[function(require,module,exports){
 module.exports = loginService;
 
-function loginService(httpClientService){
+function loginService(httpClientService, userService){
 	var self = this;
 	self.login = login;
 
-	function login(actionUrl, actionData){
-		return httpClientService.clientRequest(actionUrl, actionData)
+	function login(actionUrl, actionData, withCredential){
+		return httpClientService.clientRequest(actionUrl, actionData, withCredential)
 			.then(function(response){
-				return response;
+				userService.setUserDetails(response.data.user);
+				return response.statusText;
 			});
 	}
 }
+
 },{}],20:[function(require,module,exports){
 module.exports = mapService;
 
@@ -581,6 +606,21 @@ function mapService(dialogService){
 	}
 }
 },{}],21:[function(require,module,exports){
+module.exports = participantService;
+
+function participantService(){
+	var self = this;
+	self.participant = {};
+	self.setParticipantDetails = setParticipantDetails;
+
+	function setParticipantDetails(participantModel){
+		self.participant.firstname = participantModel.firstname;
+		self.participant.lastname = participantModel.lastname;
+		self.participant.imageURL = participantModel.imageURL;
+	}
+
+}
+},{}],22:[function(require,module,exports){
 module.exports = stateService;
 
 function stateService($state){
@@ -593,7 +633,48 @@ function stateService($state){
 	}
 
 }
-},{}],22:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
+module.exports = userService;
+
+function userService(httpClientService){
+	var self = this;
+	self.user = {};
+	self.setUserDetails = setUserDetails;
+	self.isUserACompany = isUserACompany;
+	self.isUserAParticipant = isUserAParticipant;
+	self.getDashboardUserDetails = getDashboardUserDetails;
+
+	function setUserDetails(userModel){
+		self.user.accessToken = userModel.accessToken;
+		self.user.accountType = userModel.accountTypeModel.type;
+	}
+
+	function getDashboardUserDetails(actionUrl, actionData, withCredential) {
+		return httpClientService.clientRequest(actionUrl, actionData, withCredential)
+			.then(function(response){
+				console.log(response);
+				setUserDetails(response.data.user);
+				return response;
+			});
+	}
+
+	function getUserAccountType(){
+		return self.user.accountType;
+	}
+
+	function isUserACompany(){
+		return getUserAccountType() == "Company" ? true: false;
+	}
+
+	function isUserAParticipant(){
+		return getUserAccountType() == "Participant" ? true: false;
+	}
+
+	function getUserAccessToken(){
+		return self.user.accessToken;
+	}
+}
+},{}],24:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.7
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -4741,11 +4822,11 @@ angular.module('ngAnimate', [])
 
 })(window, window.angular);
 
-},{}],23:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 require('./angular-animate');
 module.exports = 'ngAnimate';
 
-},{"./angular-animate":22}],24:[function(require,module,exports){
+},{"./angular-animate":24}],26:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.7
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -5152,11 +5233,11 @@ ngAriaModule.directive('ngShow', ['$aria', function($aria) {
 
 })(window, window.angular);
 
-},{}],25:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 require('./angular-aria');
 module.exports = 'ngAria';
 
-},{"./angular-aria":24}],26:[function(require,module,exports){
+},{"./angular-aria":26}],28:[function(require,module,exports){
 /*!
  * Angular Material Design
  * https://github.com/angular/material
@@ -34679,7 +34760,7 @@ angular.module("material.core").constant("$MD_THEME_CSS", "/*  Only used with Th
 
 
 })(window, window.angular);;window.ngMaterial={version:{full: "1.1.0-rc4-master-06e7e99"}};
-},{}],27:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 // Should already be required, here for clarity
 require('angular');
 
@@ -34693,7 +34774,7 @@ require('./angular-material');
 // Export namespace
 module.exports = 'ngMaterial';
 
-},{"./angular-material":26,"angular":30,"angular-animate":23,"angular-aria":25}],28:[function(require,module,exports){
+},{"./angular-material":28,"angular":32,"angular-animate":25,"angular-aria":27}],30:[function(require,module,exports){
 /**
  * State-based routing for AngularJS
  * @version v0.3.1
@@ -39270,7 +39351,7 @@ angular.module('ui.router.state')
   .filter('isState', $IsStateFilter)
   .filter('includedByState', $IncludedByStateFilter);
 })(window, window.angular);
-},{}],29:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.7
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -70744,8 +70825,8 @@ $provide.value("$locale", {
 })(window);
 
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
-},{}],30:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 require('./angular');
 module.exports = angular;
 
-},{"./angular":29}]},{},[15]);
+},{"./angular":31}]},{},[15]);
