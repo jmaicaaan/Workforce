@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+   "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+   "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<constant name="struts.devMode" value="true" />
+	<package name="default" extends="struts-default, json-default">
+
+		<interceptors>
+			<interceptor-stack name="myStack">
+				<interceptor-ref name="defaultStack" />
+				<interceptor-ref name="json" />
+			</interceptor-stack>
+		</interceptors>
+
+
+		<action name="registerParticipant" class="com.workforce.actions.RegisterParticipantAction">
+			<interceptor-ref name="myStack" />
+			<result name="success" type="json"></result>
+			<result name="input" type="json">
+				<param name="statusCode">500</param>
+				<param name="errorCode">500</param>
+			</result>
+		</action>
+		
+	</package>
+</struts>
+   

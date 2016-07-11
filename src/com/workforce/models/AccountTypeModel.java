@@ -15,8 +15,8 @@ public class AccountTypeModel {
 
 	public AccountTypeModel() {}
 
-	public AccountTypeModel(String accountType){
-		this.accountType = accountType;
+	public AccountTypeModel(String type){
+		this.type = type;
 	}
 
 	@Id
@@ -24,8 +24,8 @@ public class AccountTypeModel {
 	@Column(name="ID")
 	private int ID;
 
-	@Column(name="AccountType")
-	private String accountType;
+	@Column(name="Type")
+	private String type;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy="accountTypeModel")
 	private List<UserModel> userModel;
@@ -36,11 +36,13 @@ public class AccountTypeModel {
 	public void setID(int iD) {
 		this.ID = iD;
 	}
-	public String getAccountType() {
-		return accountType;
+	
+	public String getType() {
+		return type;
 	}
-	public void setAccountType(String accountType) {
-		this.accountType = accountType;
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	public List<UserModel> getUserModel() {

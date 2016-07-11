@@ -15,16 +15,33 @@
 			</interceptor-stack>
 		</interceptors>
 
-		<action name="loginAction" class="com.workforce.actions.LoginAction">
+		<action name="login" class="com.workforce.actions.Login">
 			<interceptor-ref name="myStack" />
 			<result name="success" type="json">
-				<param name="excludeProperties">
-					user\.accountTypeModel\.userModel,
-					user\.participantModel\.userModel,
-					user\.participantModel\.programmingLanguageModel\.companyModel,
-					user\.participantModel\.programmingLanguageModel\.participantModel
+				<param name="excludeNullProperties">true</param>
+				<param name="includeProperties">
+					user\.accessToken,
+					user\.accountTypeModel\.type
 				</param>
-  				<param name="excludeNullProperties">true</param>
+			</result>
+			
+			<result name="input" type="json">
+				<param name="statusCode">500</param>
+				<param name="errorCode">500</param>
+			</result>
+		</action>
+		
+		<action name="getDashboardUserDetails" class="com.workforce.actions.GetDashboardUserDetails">
+			<interceptor-ref name="myStack" />
+			<result name="success" type="json">
+				<param name="excludeNullProperties">true</param>
+				<param name="includeProperties">
+					user\.accessToken,
+					user\.accountTypeModel\.type,
+					user\.participantModel\.firstname,
+					user\.participantModel\.imageURL,
+					user\.participantModel\.lastname
+				</param>
 			</result>
 			
 			<result name="input" type="json">
@@ -33,4 +50,6 @@
 			</result>
 		</action>
 	</package>
+	
+	<include file="struts_participant"></include>
 </struts>

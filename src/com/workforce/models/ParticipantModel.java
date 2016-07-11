@@ -44,7 +44,7 @@ public class ParticipantModel {
 	@Column(name="Lastname")
 	private String lastname;
 
-	@Column(name="ImageURL")
+	@Column(name="ImageURL", nullable = true)
 	private String imageURL;
 
 	@Column(name="Location")

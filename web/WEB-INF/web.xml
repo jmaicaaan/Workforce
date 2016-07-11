@@ -23,7 +23,7 @@
     </init-param>
     <init-param>
       <param-name>cors.allowed.headers</param-name>
-      <param-value>Content-Type,X-Requested-With,accept,Origin,Access-Control-Request-Method,Access-Control-Request-Headers</param-value>
+      <param-value>Set-Cookie,Content-Type,X-Requested-With,accept,Origin,Access-Control-Request-Method,Access-Control-Request-Headers</param-value>
     </init-param>
     <init-param>
       <param-name>cors.exposed.headers</param-name>
@@ -35,7 +35,7 @@
     </init-param>
     <init-param>
       <param-name>cors.preflight.maxage</param-name>
-      <param-value>10</param-value>
+      <param-value>600</param-value>
     </init-param>
   </filter>
   <filter-mapping>

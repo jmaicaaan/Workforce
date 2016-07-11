@@ -15,14 +15,16 @@ public class DataInitialize {
 	public DataInitialize() {
 		// TODO Auto-generated constructor stub
 		
-//		loadParticipants();
+		loadParticipants();
 		loadCompanies();
+//		loadAccountTypes();
+//		loadProgrammingLanguages();
 	
 	}
 	
 	private void loadAccountTypes(){
-		String[] accountTypes = {"Admin", "Participant", "Company"};
-		
+		String[] accountTypes = {AccountTypeHelper.ADMIN, 
+				AccountTypeHelper.PARTICIPANT, AccountTypeHelper.COMPANY};
 		
 		for(String ac : accountTypes){
 			Session session = HibernateFactory.getSession().openSession();
@@ -51,13 +53,11 @@ public class DataInitialize {
 		session.beginTransaction();
 		
 		//Hard coded
-		ProgrammingLanguageModel pl = new ProgrammingLanguageModel();
-		pl.setID(1);
-		AccountTypeModel ac = new AccountTypeModel();
-		ac.setID(2);
-		
+		ProgrammingLanguageModel pl = ProgrammingLanguageHelper.getProgrammingLanguageByID("Java");
+		AccountTypeModel ac = AccountTypeHelper.getAccountTypeByName(AccountTypeHelper.PARTICIPANT);
+		System.out.println(ac.getID());
 		ParticipantModel part = new ParticipantModel("Jm", "Santos", null, null, false, pl);
-		UserModel user = new UserModel("jmsantos@yahoo.com", "jmsantos", false, null, false, ac);
+		UserModel user = new UserModel("jmsantos@yahoo.com", SecurityHelper.encrypt("jmsantos"), false, null, false, ac);
 		
 		user.setParticipantModel(part);
 		part.setUserModel(user);
@@ -72,20 +72,20 @@ public class DataInitialize {
 		AccountTypeModel ac = new AccountTypeModel();
 		ac.setID(3);
 		
-		Session session = HibernateFactory.getSession().openSession();
-		session.beginTransaction();
 		List<CompanyModel> list = (List<CompanyModel>) ResourceHelper.getJsonList("companies");
 		list.forEach(i -> {
+			Session session = HibernateFactory.getSession().openSession();
+			session.beginTransaction();
+			
 			CompanyModel comp = new CompanyModel(i.getName(), i.getEmail(), i.getImageURL(), null, null, i.getWebsite(), null);
-			UserModel user = new UserModel(i.getEmail(), null, false, null, true, ac);
+			UserModel user = new UserModel(i.getEmail(), SecurityHelper.getDefaultPassword(), false, null, true, ac);
 			
 			user.setCompanyModel(comp);
 			comp.setUserModel(user);
 			
 			session.save(user);
 			session.getTransaction().commit();
+			session.close();
 		});
-		
-		session.close();
 	}
 }
