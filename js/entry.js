@@ -20,10 +20,12 @@ workforceApp.service("httpClientService", require("./services/httpClientService"
 workforceApp.service("dialogService", require("./services/dialogService"));
 workforceApp.service("stateService", require("./services/stateService"));
 workforceApp.service("mapService", require("./services/mapService"));
+workforceApp.service("geocodingService", require("./services/geocodingService"));
 workforceApp.service("githubService", require("./services/githubService"));
 workforceApp.service("loginService", require("./services/loginService"));
 workforceApp.service("userService", require("./services/userService"));
 workforceApp.service("participantService", require("./services/participantService"));
+workforceApp.service("companyService", require("./services/companyService"));
 
 
 

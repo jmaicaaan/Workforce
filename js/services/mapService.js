@@ -49,5 +49,5 @@ function mapService(dialogService){
 		}
 
 		return marker;
-	}
+	}			
 }

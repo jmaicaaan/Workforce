@@ -6,14 +6,20 @@ function userService(httpClientService){
 	self.setUserDetails = setUserDetails;
 	self.isUserACompany = isUserACompany;
 	self.isUserAParticipant = isUserAParticipant;
-	self.getDashboardUserDetails = getDashboardUserDetails;
+	self.getUserAccountType = getUserAccountType;
 
 	function setUserDetails(userModel){
 		self.user.accessToken = userModel.accessToken;
 		self.user.accountType = userModel.accountTypeModel.type;
 	}
 
-	function getDashboardUserDetails(actionUrl, actionData, withCredential) {
+	function getUserAccountType() {
+
+		var actionUrl = "getUserAccountType",
+				actionData = {},
+				withCredential = true;
+
+
 		return httpClientService.clientRequest(actionUrl, actionData, withCredential)
 			.then(function(response){
 				console.log(response);
@@ -22,16 +28,12 @@ function userService(httpClientService){
 			});
 	}
 
-	function getUserAccountType(){
-		return self.user.accountType;
-	}
-
 	function isUserACompany(){
-		return getUserAccountType() == "Company" ? true: false;
+		return self.user.accountType == "Company" ? true: false;
 	}
 
 	function isUserAParticipant(){
-		return getUserAccountType() == "Participant" ? true: false;
+		return self.user.accountType == "Participant" ? true: false;
 	}
 
 	function getUserAccessToken(){

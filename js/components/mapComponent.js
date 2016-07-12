@@ -1,7 +1,7 @@
 module.exports = mapComponent;
 
 
-function mapComponent($mdDialog, dialogService, $window, mapService){
+function mapComponent($mdDialog, dialogService, $window, mapService, geocodingService){
 	return {
 		scope: {},
 		restrict: "E",
@@ -28,6 +28,8 @@ function mapComponent($mdDialog, dialogService, $window, mapService){
 
 
 		for(var i = 0; i <= pos.length - 1; i++){
+
+			geocodingService.reverseGeocoding(pos[i].title);
 
 			var marker = mapService.createMapMarker(googleMap, pos[i]);
 			bounds.extend(marker.position);

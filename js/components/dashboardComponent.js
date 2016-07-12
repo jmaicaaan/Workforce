@@ -14,28 +14,27 @@ function dashboardComponent(){
 
 	}
 
-	function dashboardComponentController($mdSidenav, stateService, userService, participantService){
+	function dashboardComponentController($mdSidenav, stateService, userService, participantService, companyService){
 		var self = this;
 		self.openNav = openNav;
 		self.stateTitle = stateService.stateName;
+		self.userService = userService;
 
 		loadDashboardUserDetails();
 
 		function loadDashboardUserDetails(){
-			var actionUrl = "getDashboardUserDetails",
-				actionData = {
-					user: {
-						accessToken: userService.user.accessToken
-					}
-				};
+			
 
-			userService.getDashboardUserDetails(actionUrl, actionData, true)
-				.then(function(response){
-					console.log(response);
+			userService.getUserAccountType().then(function(response){
 					if(response.statusText == "OK"){
-						if(userService.isUserAParticipant){
-							participantService.setParticipantDetails(response.data.user.participantModel);
-						}
+						console.log(userService.isUserAParticipant());
+						if(userService.isUserAParticipant()){
+
+							participantService.getParticpantDetails();
+
+						}else if(userService.isUserACompany()){
+							companyService.getCompanyDetails();
+						}	
 					}
 				});
 		}
