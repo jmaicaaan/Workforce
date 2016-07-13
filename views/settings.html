@@ -3,12 +3,16 @@
 		<md-tabs md-selected="selectedIndex" md-center-tabs md-dynamic-height md-border-bottom>
 		  <md-tab label="Profile" ui-sref="dashboard.settings.profile">
 		  	<md-tab-body>
-		  		<div layout="column" ui-view></div>
+		  		<div layout="column">
+		  			<profile-Component>Loading...</profile-Component>
+		  		</div>
 		  	</md-tab-body>
 		  </md-tab>
 		  <md-tab label="Account" ui-sref="dashboard.settings.account">
 		  	<md-tab-body>
-		  		<div layout="column" ui-view></div>
+		  		<div layout="column" >
+		  			<account-Component>Loading...</account-Component>
+		  		</div>
 		  	</md-tab-body>
 		  </md-tab>
 		 <!--  <md-tab label="Tab #3">

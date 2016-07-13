@@ -27,6 +27,7 @@ function dashboardComponent(){
 
 			userService.getUserAccountType().then(function(response){
 					if(response.statusText == "OK"){
+						console.log("Dashboard");
 						console.log(userService.isUserAParticipant());
 						if(userService.isUserAParticipant()){
 

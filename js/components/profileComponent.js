@@ -11,10 +11,18 @@ function profileComponent(){
 	};
 
 	function linker(scope, elem, attrs){
-
+		console.log(scope);
 	}
 
-	function profileComponentController(){
+	function profileComponentController(userService){
 		var self = this;
+		self.userService = userService; //To use in the view...
+
+		userService.getUserAccountType()
+			.then(function(response){
+			
+				console.log(response.statusText);
+				
+			});
 	}
 }

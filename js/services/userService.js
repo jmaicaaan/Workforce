@@ -1,6 +1,6 @@
 module.exports = userService;
 
-function userService(httpClientService){
+function userService(httpClientService, $q){
 	var self = this;
 	self.user = {};
 	self.setUserDetails = setUserDetails;
@@ -22,14 +22,14 @@ function userService(httpClientService){
 
 		return httpClientService.clientRequest(actionUrl, actionData, withCredential)
 			.then(function(response){
-				console.log(response);
+
 				setUserDetails(response.data.user);
 				return response;
 			});
 	}
 
 	function isUserACompany(){
-		return self.user.accountType == "Company" ? true: false;
+		return self.user.accountType == "Company" ? true : false; 
 	}
 
 	function isUserAParticipant(){

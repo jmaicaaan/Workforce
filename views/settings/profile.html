@@ -1,10 +1,10 @@
 <div layout="column">
 	<div layout="column" layout-align="center center" layout-padding>
 		<div style="width: 100%;">
-			<md-card>
+			<md-card ng-if="vm.userService.isUserACompany()">
 				<md-toolbar>
 					<div class="md-toolbar-tools md-whiteframe-2dp">
-						<h5><span style="color: white;">Profile</span></h5>
+						<h5><span style="color: white;">Company Profile</span></h5>
 						<span flex></span>
 					</div>
 				</md-toolbar>
@@ -55,6 +55,67 @@
 								<div layout="column">
 									<md-input-container>
 										<label>Company Programming Language</label>
+										<md-select ng-model="vm.programmingLanguage" aria-label="select"> 
+									        <md-optgroup>
+									            <md-option ng-repeat="x in ['Java','C#', 'PHP']">
+									                <span>{{x}}</span>
+									            </md-option>
+									        </md-optgroup>
+									    </md-select>
+									</md-input-container>
+								</div>
+							</div>
+
+							<div layout="row" layout-align="end end" layout-padding>
+								<div>
+									<md-button class="md-primary md-raised">
+										Update Profile
+									</md-button>
+								</div>
+							</div>
+						</div>
+					</form>
+				</md-card-content>
+			</md-card>
+
+			<md-card ng-if="vm.userService.isUserAParticipant()">
+				<md-toolbar>
+					<div class="md-toolbar-tools md-whiteframe-2dp">
+						<h5><span style="color: white;">Participant Profile</span></h5>
+						<span flex></span>
+					</div>
+				</md-toolbar>
+				<md-card-content>
+					<form autocomplete="off">
+						<div layout="column">
+							<div>
+								<div layout="column">
+									<md-input-container>
+										<label>Firstname</label>
+										<input type="text" disabled="disabled"/>
+									</md-input-container>
+								</div>
+							</div>
+							<div>
+								<div layout="column">
+									<md-input-container>
+										<label>Lastname</label>
+										<input type="text" />
+									</md-input-container>
+								</div>
+							</div>
+							<div>
+								<div layout="column">
+									<md-input-container>
+										<label>Location</label>
+										<input type="text" />
+									</md-input-container>
+								</div>
+							</div>
+							<div>
+								<div layout="column">
+									<md-input-container>
+										<label>Programming Language</label>
 										<md-select ng-model="vm.programmingLanguage" aria-label="select"> 
 									        <md-optgroup>
 									            <md-option ng-repeat="x in ['Java','C#', 'PHP']">

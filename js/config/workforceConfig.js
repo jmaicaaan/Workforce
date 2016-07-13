@@ -47,17 +47,15 @@ function workforceConfig($stateProvider, $urlRouterProvider, $mdThemingProvider)
 		})
 		.state("dashboard.settings.profile", {
 			url: "/profile",
-			title: "Profile Settings",
-			template: "<profile-Component>Loading...</profile-Component>"
+			title: "Profile Settings"
 		})
 		.state("dashboard.settings.account", {
 			url: "/account",
-			title: "Account Settings",
-			template: "<account-Component>Loading...</account-Component>"
+			title: "Account Settings"
 		})
 		.state("activateAccount", {
 			url: "/activate",
-			template: "<activate-Account-Component>Loading...</activate-Account-Component>"
+			title: "Activate Account"
 		})
 		.state("login.github", {
 			url: "/login/auth",
