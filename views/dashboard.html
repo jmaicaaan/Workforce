@@ -19,9 +19,7 @@
 			       	<div layout="column" layout-align="center center" layout-padding>
 			       		<div>
 					        <div class="avatar_image">
-					        	<img alt="image" 
-					        		ng-src="{{vm.userService.user.imageURL}}">
-					        	
+					        	<img alt="image" ng-src="{{vm.userService.user.imageURL}}">
 					        </div>
 					    </div>
 					    <h1 class="md-title">{{vm.userService.user.displayName}}</h1>
@@ -34,7 +32,7 @@
 						<md-icon md-svg-icon="../node_modules/material-design-icons/action/svg/design/ic_dashboard_24px.svg"></md-icon>
 						<p class="md-body-2">Dashboard</p>
 					</md-list-item>
-			    	<md-list-item ui-sref="dashboard.explore">
+			    	<md-list-item ui-sref="dashboard.explore" ng-if="vm.userService.isUserACompany();">
 						<md-icon md-svg-icon="../node_modules/material-design-icons/action/svg/design/ic_explore_24px.svg"></md-icon>
 						<p class="md-body-2">Explore</p>
 					</md-list-item>

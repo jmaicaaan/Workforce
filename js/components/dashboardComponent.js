@@ -20,24 +20,21 @@ function dashboardComponent(){
 		self.stateTitle = stateService.stateName;
 		self.userService = userService;
 
-		loadDashboardUserDetails();
+		init();
 
-		function loadDashboardUserDetails(){
+		function init(){
 			
-
 			userService.getUserAccountType().then(function(response){
-					if(response.statusText == "OK"){
-						console.log("Dashboard");
-						console.log(userService.isUserAParticipant());
-						if(userService.isUserAParticipant()){
+				if(response.statusText == "OK"){
+					if(userService.isUserAParticipant()){
 
-							participantService.getParticpantDetails();
+						participantService.getParticpantDetails();
 
-						}else if(userService.isUserACompany()){
-							companyService.getCompanyDetails();
-						}	
-					}
-				});
+					}else if(userService.isUserACompany()){
+						companyService.getCompanyDetails();
+					}	
+				}
+			});
 		}
 
 		function openNav(){

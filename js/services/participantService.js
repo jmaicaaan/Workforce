@@ -9,6 +9,8 @@ function participantService(httpClientService, userService){
 		self.participant.firstname = participantModel.firstname;
 		self.participant.lastname = participantModel.lastname;
 		self.participant.imageURL = participantModel.imageURL;
+		self.participant.location = participantModel.location;
+		self.participant.programmingLanguage = participantModel.programmingLanguageModel.language;
 
 		setUserServiceDetails();
 	}
@@ -27,6 +29,8 @@ function participantService(httpClientService, userService){
 
 		return httpClientService.clientRequest(actionUrl, actionData, withCredential)
 			.then(function(response){
+				console.log("Invoked participantService getParticipantDetails");
+				console.log(response);
 				setParticipantDetails(response.data.user.participantModel);
 				return response;
 			});

@@ -2,17 +2,17 @@ module.exports = programmingLanguageService;
 
 function programmingLanguageService(httpClientService){
 	var self = this;
-	self.programmingLanguages = [];
-	self.getProgrammingLanguages = self.getProgrammingLanguages;
+	self.programmingLanguageList = [];
+	self.getProgrammingLanguages = getProgrammingLanguages;
 
 	function getProgrammingLanguages(){
-		var actionUrl = "",
+		var actionUrl = "getProgrammingLanguages",
 			actionData = {},
 			withCredential = true;
 
 		return httpClientService.clientRequest(actionUrl, actionData, withCredential)
 			.then(function(response){
-				console.log(response);
+				self.programmingLanguageList = response.data.programmingLanguageList;
 				return response;
 			});
 	}

@@ -11,18 +11,38 @@ function profileComponent(){
 	};
 
 	function linker(scope, elem, attrs){
-		console.log(scope);
+		
 	}
 
-	function profileComponentController(userService){
+	function profileComponentController(userService, companyService, participantService, programmingLanguageService){
 		var self = this;
-		self.userService = userService; //To use in the view...
+		self.userService = userService; //To be use in the view...
+		self.companyService = companyService;
+		self.participantService = participantService;
+		self.programmingLanguageService = programmingLanguageService;
+		self.company = {};
+		self.participant = {};
 
-		userService.getUserAccountType()
-			.then(function(response){
-			
-				console.log(response.statusText);
-				
+
+		init();
+
+		function init(){
+			userService.getUserAccountType().then(function(response){
+				if(response.statusText == "OK"){
+					if(userService.isUserAParticipant()){
+						
+						participantService.getParticpantDetails();
+						self.participant = participantService.participant;
+
+					}else if(userService.isUserACompany()){
+						
+						companyService.getCompanyDetails();
+						self.company = companyService.company;
+					}	
+				}
+			}).then(function(){
+				programmingLanguageService.getProgrammingLanguages();
 			});
+		}		
 	}
 }

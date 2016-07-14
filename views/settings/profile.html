@@ -15,7 +15,7 @@
 								<div layout="column">
 									<md-input-container>
 										<label>Company Email</label>
-										<input type="text" disabled="disabled"/>
+										<input type="text" disabled="disabled" ng-model="vm.company.email"/>
 									</md-input-container>
 								</div>
 							</div>
@@ -23,7 +23,7 @@
 								<div layout="column">
 									<md-input-container>
 										<label>Company Name</label>
-										<input type="text" />
+										<input type="text" ng-model="vm.company.name"/>
 									</md-input-container>
 								</div>
 							</div>
@@ -31,7 +31,7 @@
 								<div layout="column">
 									<md-input-container>
 										<label>Company Description</label>
-										<input type="text" />
+										<input type="text" ng-model="vm.company.description"/>
 									</md-input-container>
 								</div>
 							</div>
@@ -39,7 +39,7 @@
 								<div layout="column">
 									<md-input-container>
 										<label>Company Location</label>
-										<input type="text" />
+										<input type="text" ng-model="vm.company.location"/>
 									</md-input-container>
 								</div>
 							</div>
@@ -47,7 +47,7 @@
 								<div layout="column">
 									<md-input-container>
 										<label>Company Website</label>
-										<input type="text" />
+										<input type="url" ng-model="vm.company.website"/>
 									</md-input-container>
 								</div>
 							</div>
@@ -55,10 +55,10 @@
 								<div layout="column">
 									<md-input-container>
 										<label>Company Programming Language</label>
-										<md-select ng-model="vm.programmingLanguage" aria-label="select"> 
+										<md-select ng-model="vm.company.programmingLanguage" aria-label="select"> 
 									        <md-optgroup>
-									            <md-option ng-repeat="x in ['Java','C#', 'PHP']">
-									                <span>{{x}}</span>
+									            <md-option ng-repeat="language in vm.programmingLanguageService.programmingLanguageList">
+									                <span>{{language.language}}</span>
 									            </md-option>
 									        </md-optgroup>
 									    </md-select>
@@ -92,7 +92,7 @@
 								<div layout="column">
 									<md-input-container>
 										<label>Firstname</label>
-										<input type="text" disabled="disabled"/>
+										<input type="text" ng-model="vm.participant.firstname"/>
 									</md-input-container>
 								</div>
 							</div>
@@ -100,7 +100,7 @@
 								<div layout="column">
 									<md-input-container>
 										<label>Lastname</label>
-										<input type="text" />
+										<input type="text" ng-model="vm.participant.lastname"/>
 									</md-input-container>
 								</div>
 							</div>
@@ -108,7 +108,7 @@
 								<div layout="column">
 									<md-input-container>
 										<label>Location</label>
-										<input type="text" />
+										<input type="text" ng-model="vm.participant.location"/>
 									</md-input-container>
 								</div>
 							</div>
@@ -116,10 +116,10 @@
 								<div layout="column">
 									<md-input-container>
 										<label>Programming Language</label>
-										<md-select ng-model="vm.programmingLanguage" aria-label="select"> 
+										<md-select ng-model="vm.participant.programmingLanguage" aria-label="select"> 
 									        <md-optgroup>
-									            <md-option ng-repeat="x in ['Java','C#', 'PHP']">
-									                <span>{{x}}</span>
+									            <md-option ng-repeat="language in vm.programmingLanguageService.programmingLanguageList">
+									                <span>{{language.language}}</span>
 									            </md-option>
 									        </md-optgroup>
 									    </md-select>

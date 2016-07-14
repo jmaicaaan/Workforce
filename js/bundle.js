@@ -63,24 +63,21 @@ function dashboardComponent(){
 		self.stateTitle = stateService.stateName;
 		self.userService = userService;
 
-		loadDashboardUserDetails();
+		init();
 
-		function loadDashboardUserDetails(){
+		function init(){
 			
-
 			userService.getUserAccountType().then(function(response){
-					if(response.statusText == "OK"){
-						console.log("Dashboard");
-						console.log(userService.isUserAParticipant());
-						if(userService.isUserAParticipant()){
+				if(response.statusText == "OK"){
+					if(userService.isUserAParticipant()){
 
-							participantService.getParticpantDetails();
+						participantService.getParticpantDetails();
 
-						}else if(userService.isUserACompany()){
-							companyService.getCompanyDetails();
-						}	
-					}
-				});
+					}else if(userService.isUserACompany()){
+						companyService.getCompanyDetails();
+					}	
+				}
+			});
 		}
 
 		function openNav(){
@@ -186,7 +183,7 @@ function mainComponent(){
 module.exports = mapComponent;
 
 
-function mapComponent($mdDialog, dialogService, $window, mapService, geocodingService){
+function mapComponent($mdDialog, dialogService, $window, mapService, geocodingService, companyService){
 	return {
 		scope: {},
 		restrict: "E",
@@ -199,28 +196,45 @@ function mapComponent($mdDialog, dialogService, $window, mapService, geocodingSe
 	function linker(scope, elem, attrs){
 		var map = elem[0].querySelector("#map");
 		var bounds = new google.maps.LatLngBounds();
-
 		var googleMap = mapService.createMap(map);
+		var companyParticipants = [];
 
-		var pos = [
-			{position: {lat: 14.5995, lng: 120.9842}, title: "Manila City", desc: "Manila City"},
-			{position: {lat: 14.5176, lng: 121.0509}, title: "Baguio City", desc: "Baguio City"},
-			{position: {lat: 14.5547, lng: 121.0244}, title: "Makati City", desc: "Makati City"},
-			{position: {lat: 14.6760, lng: 121.0437}, title: "Quezon City", desc: "Quezon City"},
-			{position: {lat: 14.4793, lng: 121.0198}, title: "Parañaque City", desc: "Parañaque City"},
-			{position: {lat: 14.5794, lng: 121.0359}, title: "Mandaluyong City", desc: "Mandaluyong City"}
-		];
+		companyService.getCompanyParticipants().then(function(response){
+			
+			companyParticipants = response;
+
+			var pos = [
+				{position: {lat: 14.5995, lng: 120.9842}, title: "Manila City", desc: "Manila City"},
+				{position: {lat: 14.5176, lng: 121.0509}, title: "Baguio City", desc: "Baguio City"},
+				{position: {lat: 14.5547, lng: 121.0244}, title: "Makati City", desc: "Makati City"},
+				{position: {lat: 14.6760, lng: 121.0437}, title: "Quezon City", desc: "Quezon City"},
+				{position: {lat: 14.4793, lng: 121.0198}, title: "Parañaque City", desc: "Parañaque City"},
+				{position: {lat: 14.5794, lng: 121.0359}, title: "Mandaluyong City", desc: "Mandaluyong City"}
+			];
 
 
-		for(var i = 0; i <= pos.length - 1; i++){
+			for(var i = 0; i <= companyParticipants.length -1; i++){
 
-			geocodingService.reverseGeocoding(pos[i].title);
+				geocodingService.reverseGeocoding(companyParticipants[i].location);
 
-			var marker = mapService.createMapMarker(googleMap, pos[i]);
-			bounds.extend(marker.position);
-		}
+				var marker = mapService.createMapMarker(googleMap, pos[i]);
+				bounds.extend(marker.position);
+			}
 
-		googleMap.fitBounds(bounds);
+			 googleMap.fitBounds(bounds);
+		});
+
+		
+
+		// for(var i = 0; i <= pos.length - 1; i++){
+
+		// 	geocodingService.reverseGeocoding(pos[i].title);
+
+		// 	var marker = mapService.createMapMarker(googleMap, pos[i]);
+		// 	bounds.extend(marker.position);
+		// }
+
+		// googleMap.fitBounds(bounds);
 	}
 
 	function mapComponentController(){
@@ -282,19 +296,39 @@ function profileComponent(){
 	};
 
 	function linker(scope, elem, attrs){
-		console.log(scope);
+		
 	}
 
-	function profileComponentController(userService){
+	function profileComponentController(userService, companyService, participantService, programmingLanguageService){
 		var self = this;
-		self.userService = userService; //To use in the view...
+		self.userService = userService; //To be use in the view...
+		self.companyService = companyService;
+		self.participantService = participantService;
+		self.programmingLanguageService = programmingLanguageService;
+		self.company = {};
+		self.participant = {};
 
-		userService.getUserAccountType()
-			.then(function(response){
-			
-				console.log(response.statusText);
-				
+
+		init();
+
+		function init(){
+			userService.getUserAccountType().then(function(response){
+				if(response.statusText == "OK"){
+					if(userService.isUserAParticipant()){
+						
+						participantService.getParticpantDetails();
+						self.participant = participantService.participant;
+
+					}else if(userService.isUserACompany()){
+						
+						companyService.getCompanyDetails();
+						self.company = companyService.company;
+					}	
+				}
+			}).then(function(){
+				programmingLanguageService.getProgrammingLanguages();
 			});
+		}		
 	}
 }
 },{}],10:[function(require,module,exports){
@@ -457,10 +491,12 @@ workforceApp.service("stateService", require("./services/stateService"));
 workforceApp.service("mapService", require("./services/mapService"));
 workforceApp.service("geocodingService", require("./services/geocodingService"));
 workforceApp.service("githubService", require("./services/githubService"));
+workforceApp.service("programmingLanguageService", require("./services/programmingLanguageService"));
 workforceApp.service("loginService", require("./services/loginService"));
 workforceApp.service("userService", require("./services/userService"));
 workforceApp.service("participantService", require("./services/participantService"));
 workforceApp.service("companyService", require("./services/companyService"));
+
 
 
 
@@ -479,17 +515,24 @@ workforceApp.directive("accountComponent", require("./components/accountComponen
 workforceApp.directive("exploreComponent", require("./components/exploreComponent"));
 workforceApp.directive("mapComponent", require("./components/mapComponent"));
 
-},{"./components/accountComponent":1,"./components/activateAccountComponent":2,"./components/dashboardComponent":3,"./components/exploreComponent":4,"./components/loginComponent":5,"./components/mainComponent":6,"./components/mapComponent":7,"./components/navComponent":8,"./components/profileComponent":9,"./components/registerComponent":10,"./components/settingsComponent":11,"./config/runConfig":12,"./config/serverConfig":13,"./config/workforceConfig":14,"./services/companyService":16,"./services/dialogService":17,"./services/geocodingService":18,"./services/githubService":19,"./services/httpClientService":20,"./services/loginService":21,"./services/mapService":22,"./services/participantService":23,"./services/stateService":24,"./services/userService":25,"angular":34,"angular-animate":27,"angular-aria":29,"angular-material":31,"angular-ui-router":32}],16:[function(require,module,exports){
+},{"./components/accountComponent":1,"./components/activateAccountComponent":2,"./components/dashboardComponent":3,"./components/exploreComponent":4,"./components/loginComponent":5,"./components/mainComponent":6,"./components/mapComponent":7,"./components/navComponent":8,"./components/profileComponent":9,"./components/registerComponent":10,"./components/settingsComponent":11,"./config/runConfig":12,"./config/serverConfig":13,"./config/workforceConfig":14,"./services/companyService":16,"./services/dialogService":17,"./services/geocodingService":18,"./services/githubService":19,"./services/httpClientService":20,"./services/loginService":21,"./services/mapService":22,"./services/participantService":23,"./services/programmingLanguageService":24,"./services/stateService":25,"./services/userService":26,"angular":35,"angular-animate":28,"angular-aria":30,"angular-material":32,"angular-ui-router":33}],16:[function(require,module,exports){
 module.exports = companyService;
 
 function companyService(httpClientService, userService){
 	var self = this;
 	self.company = {};
+	self.companyParticipants = [];
 	self.getCompanyDetails = getCompanyDetails;
+	self.getCompanyParticipants = getCompanyParticipants;
 
 	function setCompanyDetails(companyModel){
+		self.company.email = companyModel.email;
 		self.company.name = companyModel.name;
+		self.company.description = companyModel.description;
+		self.company.location = companyModel.location;
 		self.company.imageURL = companyModel.imageURL;
+		self.company.programmingLanguage = companyModel.programmingLanguageModel.language;
+		self.company.website = companyModel.website;
 
 		setUserServiceDetails();
 	}
@@ -506,9 +549,22 @@ function companyService(httpClientService, userService){
 
 		return httpClientService.clientRequest(actionUrl, actionData, withCredential)
 			.then(function(response){
-				console.log(response);
 				setCompanyDetails(response.data.user.companyModel);
 				return response;
+			});
+	}
+
+	function getCompanyParticipants(){
+		var actionUrl = "getCompanyParticipants",
+			actionData = {},
+			withCredential = true;
+
+		return httpClientService.clientRequest(actionUrl, actionData, withCredential)
+			.then(function(response){
+				self.companyParticipants = response.data.user.companyModel.programmingLanguageModel.participantModel;
+				console.log(self.companyParticipants);
+				console.log(response);
+				return response.data.user.companyModel.programmingLanguageModel.participantModel;
 			});
 	}
 }
@@ -538,7 +594,7 @@ function dialogService($mdDialog){
 },{}],18:[function(require,module,exports){
 module.exports = geocodingService;
 
-function geocodingService(httpClientRequest){
+function geocodingService(httpClientService){
 	var self = this;
 	self.geocoder;
 	self.reverseGeocoding = reverseGeocoding;
@@ -606,6 +662,7 @@ function loginService(httpClientService, userService){
 	function login(actionUrl, actionData, withCredential){
 		return httpClientService.clientRequest(actionUrl, actionData, withCredential)
 			.then(function(response){
+				console.log(response);
 				userService.setUserDetails(response.data.user);
 				return response.statusText;
 			});
@@ -678,6 +735,8 @@ function participantService(httpClientService, userService){
 		self.participant.firstname = participantModel.firstname;
 		self.participant.lastname = participantModel.lastname;
 		self.participant.imageURL = participantModel.imageURL;
+		self.participant.location = participantModel.location;
+		self.participant.programmingLanguage = participantModel.programmingLanguageModel.language;
 
 		setUserServiceDetails();
 	}
@@ -696,12 +755,35 @@ function participantService(httpClientService, userService){
 
 		return httpClientService.clientRequest(actionUrl, actionData, withCredential)
 			.then(function(response){
+				console.log("Invoked participantService getParticipantDetails");
+				console.log(response);
 				setParticipantDetails(response.data.user.participantModel);
 				return response;
 			});
 	}
 }
 },{}],24:[function(require,module,exports){
+module.exports = programmingLanguageService;
+
+function programmingLanguageService(httpClientService){
+	var self = this;
+	self.programmingLanguageList = [];
+	self.getProgrammingLanguages = getProgrammingLanguages;
+
+	function getProgrammingLanguages(){
+		var actionUrl = "getProgrammingLanguages",
+			actionData = {},
+			withCredential = true;
+
+		return httpClientService.clientRequest(actionUrl, actionData, withCredential)
+			.then(function(response){
+				self.programmingLanguageList = response.data.programmingLanguageList;
+				return response;
+			});
+	}
+
+}
+},{}],25:[function(require,module,exports){
 module.exports = stateService;
 
 function stateService($state){
@@ -714,7 +796,7 @@ function stateService($state){
 	}
 
 }
-},{}],25:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 module.exports = userService;
 
 function userService(httpClientService, $q){
@@ -757,7 +839,7 @@ function userService(httpClientService, $q){
 		return self.user.accessToken;
 	}
 }
-},{}],26:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.7
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -4905,11 +4987,11 @@ angular.module('ngAnimate', [])
 
 })(window, window.angular);
 
-},{}],27:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 require('./angular-animate');
 module.exports = 'ngAnimate';
 
-},{"./angular-animate":26}],28:[function(require,module,exports){
+},{"./angular-animate":27}],29:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.7
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -5316,11 +5398,11 @@ ngAriaModule.directive('ngShow', ['$aria', function($aria) {
 
 })(window, window.angular);
 
-},{}],29:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 require('./angular-aria');
 module.exports = 'ngAria';
 
-},{"./angular-aria":28}],30:[function(require,module,exports){
+},{"./angular-aria":29}],31:[function(require,module,exports){
 /*!
  * Angular Material Design
  * https://github.com/angular/material
@@ -36007,7 +36089,7 @@ angular.module("material.core").constant("$MD_THEME_CSS", "/*  Only used with Th
 
 
 })(window, window.angular);;window.ngMaterial={version:{full: "1.1.0-rc.5"}};
-},{}],31:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 // Should already be required, here for clarity
 require('angular');
 
@@ -36021,7 +36103,7 @@ require('./angular-material');
 // Export namespace
 module.exports = 'ngMaterial';
 
-},{"./angular-material":30,"angular":34,"angular-animate":27,"angular-aria":29}],32:[function(require,module,exports){
+},{"./angular-material":31,"angular":35,"angular-animate":28,"angular-aria":30}],33:[function(require,module,exports){
 /**
  * State-based routing for AngularJS
  * @version v0.3.1
@@ -40598,7 +40680,7 @@ angular.module('ui.router.state')
   .filter('isState', $IsStateFilter)
   .filter('includedByState', $IncludedByStateFilter);
 })(window, window.angular);
-},{}],33:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.7
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -72072,8 +72154,8 @@ $provide.value("$locale", {
 })(window);
 
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
-},{}],34:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
 require('./angular');
 module.exports = angular;
 
-},{"./angular":33}]},{},[15]);
+},{"./angular":34}]},{},[15]);

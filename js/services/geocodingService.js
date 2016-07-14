@@ -1,6 +1,6 @@
 module.exports = geocodingService;
 
-function geocodingService(httpClientRequest){
+function geocodingService(httpClientService){
 	var self = this;
 	self.geocoder;
 	self.reverseGeocoding = reverseGeocoding;
