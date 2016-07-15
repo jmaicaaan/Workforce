@@ -1,7 +1,7 @@
 module.exports = mapComponent;
 
 
-function mapComponent($mdDialog, dialogService, $window, mapService, geocodingService, companyService){
+function mapComponent($mdDialog, dialogService, $q, mapService, geocodingService, companyService){
 	return {
 		scope: {},
 		restrict: "E",
@@ -15,44 +15,61 @@ function mapComponent($mdDialog, dialogService, $window, mapService, geocodingSe
 		var map = elem[0].querySelector("#map");
 		var bounds = new google.maps.LatLngBounds();
 		var googleMap = mapService.createMap(map);
-		var companyParticipants = [];
 
-		companyService.getCompanyParticipants().then(function(response){
+		companyService.getCompanyParticipants().then(function(companyParticipants){
 			
-			companyParticipants = response;
-
-			var pos = [
-				{position: {lat: 14.5995, lng: 120.9842}, title: "Manila City", desc: "Manila City"},
-				{position: {lat: 14.5176, lng: 121.0509}, title: "Baguio City", desc: "Baguio City"},
-				{position: {lat: 14.5547, lng: 121.0244}, title: "Makati City", desc: "Makati City"},
-				{position: {lat: 14.6760, lng: 121.0437}, title: "Quezon City", desc: "Quezon City"},
-				{position: {lat: 14.4793, lng: 121.0198}, title: "Parañaque City", desc: "Parañaque City"},
-				{position: {lat: 14.5794, lng: 121.0359}, title: "Mandaluyong City", desc: "Mandaluyong City"}
-			];
+			// for(var i in companyParticipants){
+			// 	var participantLocation = companyParticipants[i].location;
+			// 	var prom = geocodingService.reverseGeocoding(participantLocation);
+			// }
+			$q.all(geocodingService.geocodeArrayOfAddress(companyParticipants))
+				.then(function(response){
+					console.log(response);
+				});
 
 
-			for(var i = 0; i <= companyParticipants.length -1; i++){
+			// for(var i = 0; i <= companyParticipants.length -1; i++){
+				
+			// 	console.log(companyParticipants);
+			// 	var promise = geocodingService.reverseGeocoding(companyParticipants[i].location);
+					
+			// 	promise.then(function(response){
+			// 		console.log(response);
 
-				geocodingService.reverseGeocoding(companyParticipants[i].location);
+			// 		var location = {
+			// 			position: {lat: response[0].geometry.location.lat(), lng: response[0].geometry.location.lng()},
+			// 			title: companyParticipants[i].firstname,
+			// 			desc: "companyParticipants[i].lastname"
+			// 		};
 
-				var marker = mapService.createMapMarker(googleMap, pos[i]);
-				bounds.extend(marker.position);
-			}
+			// 		var marker = mapService.createMapMarker(googleMap, location);
+			// 		bounds.extend(marker.position);
+			// 	});
+					
 
-			 googleMap.fitBounds(bounds);
+					// console.log(companyParticipants[i].firstname);
+					// console.log(xxx);
+
+					// var location = {
+					// 	position: {lat: response[0].geometry.location.lat(), lng: response[0].geometry.location.lng()},
+					// 	title: "companyParticipants[i].firstname",
+					// 	desc: "companyParticipants[i].lastname"
+					// };
+
+
+
+
+					// console.log(response);
+					// console.log(location);
+					// var marker = mapService.createMapMarker(googleMap, location);
+					// console.log(marker);
+					// console.log(marker.position);
+					// console.log(JSON.stringify(marker.position));
+					// bounds.extend(marker.position);
+			// }
+			// googleMap.fitBounds(bounds);
 		});
 
-		
-
-		// for(var i = 0; i <= pos.length - 1; i++){
-
-		// 	geocodingService.reverseGeocoding(pos[i].title);
-
-		// 	var marker = mapService.createMapMarker(googleMap, pos[i]);
-		// 	bounds.extend(marker.position);
-		// }
-
-		// googleMap.fitBounds(bounds);
 	}
 
 	function mapComponentController(){

@@ -183,7 +183,7 @@ function mainComponent(){
 module.exports = mapComponent;
 
 
-function mapComponent($mdDialog, dialogService, $window, mapService, geocodingService, companyService){
+function mapComponent($mdDialog, dialogService, $q, mapService, geocodingService, companyService){
 	return {
 		scope: {},
 		restrict: "E",
@@ -197,44 +197,61 @@ function mapComponent($mdDialog, dialogService, $window, mapService, geocodingSe
 		var map = elem[0].querySelector("#map");
 		var bounds = new google.maps.LatLngBounds();
 		var googleMap = mapService.createMap(map);
-		var companyParticipants = [];
 
-		companyService.getCompanyParticipants().then(function(response){
+		companyService.getCompanyParticipants().then(function(companyParticipants){
 			
-			companyParticipants = response;
-
-			var pos = [
-				{position: {lat: 14.5995, lng: 120.9842}, title: "Manila City", desc: "Manila City"},
-				{position: {lat: 14.5176, lng: 121.0509}, title: "Baguio City", desc: "Baguio City"},
-				{position: {lat: 14.5547, lng: 121.0244}, title: "Makati City", desc: "Makati City"},
-				{position: {lat: 14.6760, lng: 121.0437}, title: "Quezon City", desc: "Quezon City"},
-				{position: {lat: 14.4793, lng: 121.0198}, title: "Parañaque City", desc: "Parañaque City"},
-				{position: {lat: 14.5794, lng: 121.0359}, title: "Mandaluyong City", desc: "Mandaluyong City"}
-			];
+			// for(var i in companyParticipants){
+			// 	var participantLocation = companyParticipants[i].location;
+			// 	var prom = geocodingService.reverseGeocoding(participantLocation);
+			// }
+			$q.all(geocodingService.geocodeArrayOfAddress(companyParticipants))
+				.then(function(response){
+					console.log(response);
+				});
 
 
-			for(var i = 0; i <= companyParticipants.length -1; i++){
+			// for(var i = 0; i <= companyParticipants.length -1; i++){
+				
+			// 	console.log(companyParticipants);
+			// 	var promise = geocodingService.reverseGeocoding(companyParticipants[i].location);
+					
+			// 	promise.then(function(response){
+			// 		console.log(response);
 
-				geocodingService.reverseGeocoding(companyParticipants[i].location);
+			// 		var location = {
+			// 			position: {lat: response[0].geometry.location.lat(), lng: response[0].geometry.location.lng()},
+			// 			title: companyParticipants[i].firstname,
+			// 			desc: "companyParticipants[i].lastname"
+			// 		};
 
-				var marker = mapService.createMapMarker(googleMap, pos[i]);
-				bounds.extend(marker.position);
-			}
+			// 		var marker = mapService.createMapMarker(googleMap, location);
+			// 		bounds.extend(marker.position);
+			// 	});
+					
 
-			 googleMap.fitBounds(bounds);
+					// console.log(companyParticipants[i].firstname);
+					// console.log(xxx);
+
+					// var location = {
+					// 	position: {lat: response[0].geometry.location.lat(), lng: response[0].geometry.location.lng()},
+					// 	title: "companyParticipants[i].firstname",
+					// 	desc: "companyParticipants[i].lastname"
+					// };
+
+
+
+
+					// console.log(response);
+					// console.log(location);
+					// var marker = mapService.createMapMarker(googleMap, location);
+					// console.log(marker);
+					// console.log(marker.position);
+					// console.log(JSON.stringify(marker.position));
+					// bounds.extend(marker.position);
+			// }
+			// googleMap.fitBounds(bounds);
 		});
 
-		
-
-		// for(var i = 0; i <= pos.length - 1; i++){
-
-		// 	geocodingService.reverseGeocoding(pos[i].title);
-
-		// 	var marker = mapService.createMapMarker(googleMap, pos[i]);
-		// 	bounds.extend(marker.position);
-		// }
-
-		// googleMap.fitBounds(bounds);
 	}
 
 	function mapComponentController(){
@@ -305,6 +322,8 @@ function profileComponent(){
 		self.companyService = companyService;
 		self.participantService = participantService;
 		self.programmingLanguageService = programmingLanguageService;
+		self.updateCompanyProfile = updateCompanyProfile;
+		self.updateParticipantProfile = updateParticipantProfile;
 		self.company = {};
 		self.participant = {};
 
@@ -328,7 +347,15 @@ function profileComponent(){
 			}).then(function(){
 				programmingLanguageService.getProgrammingLanguages();
 			});
-		}		
+		}
+
+		function updateCompanyProfile(){
+			companyService.updateCompanyProfile(self.company);
+		}	
+
+		function updateParticipantProfile(){
+			participantService.updateParticipantProfile(self.participant);
+		}	
 	}
 }
 },{}],10:[function(require,module,exports){
@@ -524,6 +551,7 @@ function companyService(httpClientService, userService){
 	self.companyParticipants = [];
 	self.getCompanyDetails = getCompanyDetails;
 	self.getCompanyParticipants = getCompanyParticipants;
+	self.updateCompanyProfile = updateCompanyProfile;
 
 	function setCompanyDetails(companyModel){
 		self.company.email = companyModel.email;
@@ -567,6 +595,19 @@ function companyService(httpClientService, userService){
 				return response.data.user.companyModel.programmingLanguageModel.participantModel;
 			});
 	}
+
+	function updateCompanyProfile(company){
+
+		var actionUrl = "",
+			actionData = company,
+			withCredential = true;
+
+		return httpClientService.clientRequest(actionUrl, actionData, withCredential)
+			.then(function(response){
+				console.log("Invoked participantService updateCompanyProfile");
+				console.log(response);
+			});
+	}
 }
 },{}],17:[function(require,module,exports){
 module.exports = dialogService;
@@ -594,16 +635,34 @@ function dialogService($mdDialog){
 },{}],18:[function(require,module,exports){
 module.exports = geocodingService;
 
-function geocodingService(httpClientService){
+function geocodingService(httpClientService, $q){
 	var self = this;
 	self.geocoder;
-	self.reverseGeocoding = reverseGeocoding;
+	self.geocodeArrayOfAddress = geocodeArrayOfAddress;
 
-	function reverseGeocoding(address){
+	function geocodeAddress(address){
+		var defer = $q.defer();
 		geocoder = new google.maps.Geocoder();
-		geocoder.geocode({"address": address}, function(results, status){
-			console.log(results);
+
+		geocoder.geocode({"address": address}, function(result, status){
+		
+			defer.resolve(result);
 		});
+
+		return defer.promise;
+	}
+
+	function geocodeArrayOfAddress(arrayOfAddress){
+		var defer = $q.defer();
+		var promises = [];
+		var chain = $q.when();
+		for(var i = 0, j = arrayOfAddress.length; i <= j - 1; i++){
+			geocodeAddress(arrayOfAddress[i].location).then(function(response){
+				promises.push(response);
+			});
+		}
+		defer.resolve(promises);
+		return defer.promise;
 	}
 }
 },{}],19:[function(require,module,exports){
@@ -687,6 +746,7 @@ function mapService(dialogService){
 	}
 
 	function createMapMarker(map, location){
+
 		var marker = new google.maps.Marker({
 			map: map,
 			position: location.position,
@@ -721,7 +781,9 @@ function mapService(dialogService){
 		}
 
 		return marker;
-	}			
+	}		
+
+		
 }
 },{}],23:[function(require,module,exports){
 module.exports = participantService;
@@ -730,6 +792,7 @@ function participantService(httpClientService, userService){
 	var self = this;
 	self.participant = {};
 	self.getParticpantDetails = getParticpantDetails;
+	self.updateParticipantProfile = updateParticipantProfile;
 
 	function setParticipantDetails(participantModel){
 		self.participant.firstname = participantModel.firstname;
@@ -755,10 +818,27 @@ function participantService(httpClientService, userService){
 
 		return httpClientService.clientRequest(actionUrl, actionData, withCredential)
 			.then(function(response){
-				console.log("Invoked participantService getParticipantDetails");
 				console.log(response);
 				setParticipantDetails(response.data.user.participantModel);
 				return response;
+			});
+	}
+
+	function updateParticipantProfile(participant){
+
+		var actionUrl = "updateParticipantProfile",
+			actionData = {
+				participant : participant,
+				programmingLanguageModel : {
+					language : participant.programmingLanguage
+				}
+			},
+			withCredential = true;
+
+		return httpClientService.clientRequest(actionUrl, actionData, withCredential)
+			.then(function(response){
+				console.log("Invoked participantService updateParticipant");
+				console.log(response);
 			});
 	}
 }

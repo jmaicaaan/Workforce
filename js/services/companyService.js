@@ -6,6 +6,7 @@ function companyService(httpClientService, userService){
 	self.companyParticipants = [];
 	self.getCompanyDetails = getCompanyDetails;
 	self.getCompanyParticipants = getCompanyParticipants;
+	self.updateCompanyProfile = updateCompanyProfile;
 
 	function setCompanyDetails(companyModel){
 		self.company.email = companyModel.email;
@@ -47,6 +48,19 @@ function companyService(httpClientService, userService){
 				console.log(self.companyParticipants);
 				console.log(response);
 				return response.data.user.companyModel.programmingLanguageModel.participantModel;
+			});
+	}
+
+	function updateCompanyProfile(company){
+
+		var actionUrl = "",
+			actionData = company,
+			withCredential = true;
+
+		return httpClientService.clientRequest(actionUrl, actionData, withCredential)
+			.then(function(response){
+				console.log("Invoked participantService updateCompanyProfile");
+				console.log(response);
 			});
 	}
 }

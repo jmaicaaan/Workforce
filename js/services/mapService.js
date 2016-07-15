@@ -15,6 +15,7 @@ function mapService(dialogService){
 	}
 
 	function createMapMarker(map, location){
+
 		var marker = new google.maps.Marker({
 			map: map,
 			position: location.position,
@@ -49,5 +50,7 @@ function mapService(dialogService){
 		}
 
 		return marker;
-	}			
+	}		
+
+		
 }

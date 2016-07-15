@@ -20,6 +20,8 @@ function profileComponent(){
 		self.companyService = companyService;
 		self.participantService = participantService;
 		self.programmingLanguageService = programmingLanguageService;
+		self.updateCompanyProfile = updateCompanyProfile;
+		self.updateParticipantProfile = updateParticipantProfile;
 		self.company = {};
 		self.participant = {};
 
@@ -43,6 +45,14 @@ function profileComponent(){
 			}).then(function(){
 				programmingLanguageService.getProgrammingLanguages();
 			});
-		}		
+		}
+
+		function updateCompanyProfile(){
+			companyService.updateCompanyProfile(self.company);
+		}	
+
+		function updateParticipantProfile(){
+			participantService.updateParticipantProfile(self.participant);
+		}	
 	}
 }

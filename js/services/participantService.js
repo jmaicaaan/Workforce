@@ -4,6 +4,7 @@ function participantService(httpClientService, userService){
 	var self = this;
 	self.participant = {};
 	self.getParticpantDetails = getParticpantDetails;
+	self.updateParticipantProfile = updateParticipantProfile;
 
 	function setParticipantDetails(participantModel){
 		self.participant.firstname = participantModel.firstname;
@@ -29,10 +30,27 @@ function participantService(httpClientService, userService){
 
 		return httpClientService.clientRequest(actionUrl, actionData, withCredential)
 			.then(function(response){
-				console.log("Invoked participantService getParticipantDetails");
 				console.log(response);
 				setParticipantDetails(response.data.user.participantModel);
 				return response;
+			});
+	}
+
+	function updateParticipantProfile(participant){
+
+		var actionUrl = "updateParticipantProfile",
+			actionData = {
+				participant : participant,
+				programmingLanguageModel : {
+					language : participant.programmingLanguage
+				}
+			},
+			withCredential = true;
+
+		return httpClientService.clientRequest(actionUrl, actionData, withCredential)
+			.then(function(response){
+				console.log("Invoked participantService updateParticipant");
+				console.log(response);
 			});
 	}
 }
