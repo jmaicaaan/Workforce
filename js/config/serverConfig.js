@@ -1,6 +1,6 @@
 module.exports = {	
 	appName: "workforce",
-	host: "http://localhost:8080",
+	host: "http://192.168.1.116:8080",
 	contentType: "application/json",
 	delimeter: "/"
 };

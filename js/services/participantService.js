@@ -5,6 +5,7 @@ function participantService(httpClientService, userService){
 	self.participant = {};
 	self.getParticpantDetails = getParticpantDetails;
 	self.updateParticipantProfile = updateParticipantProfile;
+	self.updateParticipantPassword = updateParticipantPassword;
 
 	function setParticipantDetails(participantModel){
 		self.participant.firstname = participantModel.firstname;
@@ -51,6 +52,24 @@ function participantService(httpClientService, userService){
 			.then(function(response){
 				console.log("Invoked participantService updateParticipant");
 				console.log(response);
+				alert("Updated profile");
 			});
+	}
+
+	function updateParticipantPassword(participant){
+
+		var actionUrl = "updateParticipantPassword",
+			actionData = {
+				user: participant
+			},
+			withCredential = true;
+
+		return httpClientService.clientRequest(actionUrl, actionData, withCredential)
+			.then(function(response){
+				console.log("Invoked participantService updateParticipantPassword");
+				console.log(response);
+				alert("Password changed");
+			});
+
 	}
 }

@@ -22,7 +22,6 @@ function userService(httpClientService, $q){
 
 		return httpClientService.clientRequest(actionUrl, actionData, withCredential)
 			.then(function(response){
-
 				setUserDetails(response.data.user);
 				return response;
 			});

@@ -14,7 +14,18 @@ function accountComponent($timeout){
 		
 	}
 
-	function accountComponentController(){
+	function accountComponentController(participantService){
 		var self = this;
+		self.participant = {};
+		self.participantService = participantService;
+		self.updatePassword = updatePassword;
+
+		function updatePassword(){
+			participantService.updateParticipantPassword(self.participant)
+				.then(function(response){
+					console.log(response);
+				});
+		}
+
 	}
 }
