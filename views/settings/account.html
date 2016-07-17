@@ -13,20 +13,20 @@
 						<div layout="column">
 							<md-input-container>
 								<label>Old Password</label>
-								<input type="password" ng-model="vm.user.oldPassword"/>
+								<input type="password" ng-model="vm.participant.oldPassword"/>
 							</md-input-container>
 							<md-input-container>
 								<label>Password</label>
-								<input type="password" ng-model="vm.user.password"/>
+								<input type="password" ng-model="vm.participant.password"/>
 							</md-input-container>
 							<md-input-container>
 								<label>Confirm Password</label>
-								<input type="password" ng-model="vm.user.confirmPassword"/>
+								<input type="password" ng-model="vm.participant.confirmPassword"/>
 							</md-input-container>
 
 							<div layout="row" layout-align="end end">
 								<div>
-									<md-button class="md-primary md-raised">
+									<md-button class="md-primary md-raised" ng-click="vm.updatePassword();">
 										Update Password
 									</md-button>
 								</div>
