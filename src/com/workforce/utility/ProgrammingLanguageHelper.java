@@ -4,6 +4,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import com.workforce.models.ProgrammingLanguageModel;
+import com.workforce.repositories.BaseRepository;
 
 public class ProgrammingLanguageHelper {
 	
@@ -14,7 +15,7 @@ public class ProgrammingLanguageHelper {
 		Transaction trans = null;
 		
 		try {
-			session = HibernateFactory.getSession().openSession();
+			session = BaseRepository.getSession().openSession();
 			trans = session.beginTransaction();
 			
 			pl = (ProgrammingLanguageModel) session.createQuery("from ProgrammingLanguage where Language = :language")

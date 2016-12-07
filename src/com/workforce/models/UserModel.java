@@ -1,6 +1,7 @@
 package com.workforce.models;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -11,12 +12,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 @Entity(name="Users")
 public class UserModel {
 
-	public UserModel() {}
+	public UserModel() {
+		this.timestamp = LocalDateTime.now().toString();
+	}
 
 	public UserModel(String email, String password, boolean hasAccessToken, 
 			String accessToken, boolean hasTemporaryPassword, AccountTypeModel accountType){
@@ -62,7 +66,10 @@ public class UserModel {
 
 	@OneToOne(mappedBy="userModel", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
 	private CompanyModel companyModel;
-
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy="user")
+	private List<NotificationModel> notificationModel;
+	
 	public int getID() {
 		return ID;
 	}
@@ -135,5 +142,13 @@ public class UserModel {
 
 	public void setHasTemporaryPassword(boolean hasTemporaryPassword) {
 		this.hasTemporaryPassword = hasTemporaryPassword;
+	}
+
+	public List<NotificationModel> getNotificationModel() {
+		return notificationModel;
+	}
+
+	public void setNotificationModel(List<NotificationModel> notificationModel) {
+		this.notificationModel = notificationModel;
 	}
 }

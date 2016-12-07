@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+   "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+   "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<constant name="struts.devMode" value="true" />
+	
+	<package name="company" extends="struts-default, json-default">
+
+		<interceptors>
+			<interceptor-stack name="myStack">
+				<interceptor-ref name="defaultStack" />
+				<interceptor-ref name="json" />
+			</interceptor-stack>
+		</interceptors>
+
+
+		<!-- <action name="registerCompany" class="com.workforce.actions.RegisterParticipant">
+			<interceptor-ref name="myStack" />
+			<result name="success" type="json">
+				<param name="excludeNullProperties">true</param>
+			</result>
+			<result name="input" type="json">
+				<param name="statusCode">500</param>
+				<param name="errorCode">500</param>
+			</result>
+		</action> -->
+		
+		<action name="getCompanyDetails" class="com.workforce.actions.GetCompanyDetails">
+			<interceptor-ref name="myStack" />
+			<result name="success" type="json">
+				<param name="excludeNullProperties">true</param>
+				<param name="excludeProperties">
+					user\.ID,
+					user\.hasAccessToken,
+					user\.hasTemporaryPassword,
+					user\.password,
+					user\.notificationModel,
+					user\.accountTypeModel\.ID,
+					user\.accountTypeModel\.userModel,
+					user\.companyModel\.userModel,
+					user\.companyModel\.ID,
+					user\.companyModel\.workforceModel,
+					user\.companyModel\.programmingLanguageModel\.ID,
+					user\.companyModel\.programmingLanguageModel\.companyModel,
+					user\.companyModel\.programmingLanguageModel\.participantModel
+				</param>
+			</result>
+			<result name="input" type="json">
+				<param name="statusCode">500</param>
+				<param name="errorCode">500</param>
+			</result>
+		</action>
+		
+		<action name="getCompanyParticipants" class="com.workforce.actions.GetCompanyParticipants">
+			<interceptor-ref name="myStack" />
+			<result name="success" type="json">
+				<param name="excludeNullProperties">true</param>
+				<param name="excludeProperties">
+					user\.ID,
+					user\.password,
+					user\.hasAccessToken,
+					user\.hasTemporaryPassword,
+					user\.notificationModel,
+					user\.accountTypeModel\.ID,
+					user\.accountTypeModel\.userModel,
+					user\.companyModel\.ID,
+					user\.companyModel\.userModel,
+					user\.companyModel\.programmingLanguageModel\.ID,
+					user\.companyModel\.programmingLanguageModel\.companyModel,
+					user\.companyModel\.programmingLanguageModel\.participantModel\[\d+\].ID,
+					user\.companyModel\.programmingLanguageModel\.participantModel\[\d+\].userModel\.ID,
+					user\.companyModel\.programmingLanguageModel\.participantModel\[\d+\].userModel\.accountTypeModel,
+					user\.companyModel\.programmingLanguageModel\.participantModel\[\d+\].userModel\.hasAccessToken,
+					user\.companyModel\.programmingLanguageModel\.participantModel\[\d+\].userModel\.hasTemporaryPassword,
+					user\.companyModel\.programmingLanguageModel\.participantModel\[\d+\].userModel\.participantModel,
+					user\.companyModel\.programmingLanguageModel\.participantModel\[\d+\].userModel\.password,
+					user\.companyModel\.programmingLanguageModel\.participantModel\[\d+\].userModel\.timestamp,
+					user\.companyModel\.programmingLanguageModel\.participantModel\[\d+\].userModel\.notificationModel,
+					user\.companyModel\.programmingLanguageModel\.participantModel\[\d+\].programmingLanguageModel,
+					user\.companyModel\.programmingLanguageModel\.participantModel\[\d+\].workforceModel
+					
+				</param>
+			</result>
+			<result name="input" type="json">
+				<param name="statusCode">500</param>
+				<param name="errorCode">500</param>
+			</result>
+		</action>
+		
+		<action name="updateCompanyProfile" class="com.workforce.actions.UpdateCompanyProfile">
+			<interceptor-ref name="myStack" />
+			<result name="success" type="json">
+				<param name="excludeNullProperties">true</param>
+				<!-- <param name="excludeProperties">
+					user\.password,
+					user\.hasAccessToken,
+					user\.hasTemporaryPassword,
+					user\.accountTypeModel\.userModel,
+					user\.companyModel\.userModel,
+					user\.companyModel\.programmingLanguageModel.companyModel,
+					user\.companyModel\.programmingLanguageModel.participantModel\[\d+\].userModel,
+					user\.companyModel\.programmingLanguageModel\.participantModel\[\d+\].programmingLanguageModel
+				</param> -->
+			</result>
+			<result name="input" type="json">
+				<param name="statusCode">500</param>
+				<param name="errorCode">500</param>
+			</result>
+		</action> 
+		
+		<action name="updateCompanyPassword" class="com.workforce.actions.UpdateCompanyPassword">
+			<interceptor-ref name="myStack" />
+			<result name="success" type="json">
+				<param name="excludeNullProperties">true</param>
+				<!-- <param name="excludeProperties">
+					user\.password,
+					user\.hasAccessToken,
+					user\.hasTemporaryPassword,
+					user\.accountTypeModel\.userModel,
+					user\.companyModel\.userModel,
+					user\.companyModel\.programmingLanguageModel.companyModel,
+					user\.companyModel\.programmingLanguageModel.participantModel\[\d+\].userModel,
+					user\.companyModel\.programmingLanguageModel\.participantModel\[\d+\].programmingLanguageModel
+				</param> -->
+			</result>
+			<result name="input" type="json">
+				<param name="statusCode">500</param>
+				<param name="errorCode">500</param>
+			</result>
+		</action> 
+		
+	</package>
+</struts>
+   

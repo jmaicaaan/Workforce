@@ -1,18 +1,12 @@
 package com.workforce.utility;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Properties;
 
-import org.jboss.jandex.Type;
-
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.workforce.models.CompanyModel;
-
-import sun.security.jca.GetInstance.Instance;
 
 public class ResourceHelper {
 
@@ -54,6 +48,12 @@ public class ResourceHelper {
 		}
 		return list;
 	}
-
+	
+	public static InputStream getFileAsInputStream(String filename){
+		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+		
+		InputStream inputStream = classLoader.getResourceAsStream("/" + filename);
+		return inputStream;
+	}
 
 }

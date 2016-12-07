@@ -7,6 +7,7 @@ import org.apache.struts2.interceptor.ServletResponseAware;
 import com.opensymphony.xwork2.ActionSupport;
 import com.workforce.models.UserModel;
 import com.workforce.repositories.UserRepository;
+import com.workforce.utility.AccessTokenHelper;
 import com.workforce.utility.CookieHelper;
 import com.workforce.utility.IUser;
 
@@ -14,19 +15,22 @@ public class Login extends ActionSupport implements ServletResponseAware, IUser 
 	
 	private UserModel user = new UserModel();
 	private HttpServletResponse response;
+	private UserRepository _userRepository = new UserRepository();
 	
 	@Override
 	public String execute() throws Exception {
 		// TODO Auto-generated method stub
 		
-		UserRepository userRepository = new UserRepository();
-		UserModel userModel = userRepository.Login(this.user);
+		UserModel userModel = _userRepository.Login(user);
 		
 		if(userModel != null){
-			this.user = userRepository.UpdateUserToken(userModel);
+			userModel.setAccessToken(AccessTokenHelper.generateAccessToken());
+			userModel.setHasAccessToken(true);
+			user = userModel;
+			_userRepository.Update(user);
 			
 			response.addCookie(CookieHelper
-					.setCookie(IUser.userAccessTokenName, this.user.getAccessToken()));
+					.setCookie(IUser.userAccessTokenName, user.getAccessToken()));
 			
 			return SUCCESS;
 		}

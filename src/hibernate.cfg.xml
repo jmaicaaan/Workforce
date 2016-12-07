@@ -32,9 +32,13 @@
 
         <!-- Database connection settings -->
         <property name="connection.driver_class">net.sourceforge.jtds.jdbc.Driver</property>
-        <property name="connection.url">jdbc:jtds:sqlserver://127.0.0.1:1433/Workforce</property>
+<!--         <property name="connection.url">jdbc:jtds:sqlserver://127.0.0.1:1433/Workforce</property>
         <property name="connection.username">fcms</property>
-        <property name="connection.password">fcms</property>
+        <property name="connection.password">fcms</property> -->
+        
+        <property name="connection.url">jdbc:jtds:sqlserver://apsql-ap1-03udb/Workforce</property>
+        <property name="connection.username">dcasuser</property>
+        <property name="connection.password">dcasuser</property>
 
         <!-- JDBC connection pool (use the built-in) -->
         <property name="connection.pool_size">50</property>
@@ -56,6 +60,8 @@
 		<mapping class="com.workforce.models.ParticipantModel"/>
 		<mapping class="com.workforce.models.UserModel"/>
 		<mapping class="com.workforce.models.ProgrammingLanguageModel"/>
+		<mapping class="com.workforce.models.WorkforceModel"/>
+		<mapping class="com.workforce.models.NotificationModel"/>
 		
     </session-factory>
 </hibernate-configuration>

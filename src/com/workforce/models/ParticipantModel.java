@@ -1,5 +1,7 @@
 package com.workforce.models;
 
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 
@@ -20,16 +23,14 @@ public class ParticipantModel {
 	public ParticipantModel() {}
 
 	public ParticipantModel(String firstname, String lastname, String imageURL, 
-			String location, boolean isAvailable, ProgrammingLanguageModel language){
+			String location, ProgrammingLanguageModel language){
 
 		this.firstname = firstname;
 		this.lastname = lastname;
 		this.imageURL = imageURL;
 		this.location = location;
-		this.isAvailable = isAvailable;
 		this.programmingLanguageModel = language;
 	}
-
 
 	@GenericGenerator(name = "generator", strategy = "foreign",
 			parameters = @Parameter(name = "property", value = "userModel"))
@@ -50,9 +51,6 @@ public class ParticipantModel {
 	@Column(name="Location")
 	private String location;
 
-	@Column(name="IsAvailable")
-	private boolean isAvailable;
-
 	@ManyToOne
 	@JoinColumn(name="ProgrammingLanguageID")
 	private ProgrammingLanguageModel programmingLanguageModel;
@@ -60,6 +58,10 @@ public class ParticipantModel {
 	@OneToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
 	@PrimaryKeyJoinColumn
 	private UserModel userModel;
+
+	@OneToMany(fetch = FetchType.LAZY,  mappedBy="participant")
+	private List<WorkforceModel> workforceModel;
+
 
 	public int getID() {
 		return ID;
@@ -91,12 +93,6 @@ public class ParticipantModel {
 	public void setLocation(String location) {
 		this.location = location;
 	}
-	public boolean isAvailable() {
-		return isAvailable;
-	}
-	public void setAvailable(boolean isAvailable) {
-		this.isAvailable = isAvailable;
-	}
 
 	public UserModel getUserModel() {
 		return userModel;
@@ -112,5 +108,13 @@ public class ParticipantModel {
 
 	public void setProgrammingLanguageModel(ProgrammingLanguageModel programmingLanguageModel) {
 		this.programmingLanguageModel = programmingLanguageModel;
+	}
+
+	public List<WorkforceModel> getWorkforceModel() {
+		return workforceModel;
+	}
+
+	public void setWorkforceModel(List<WorkforceModel> workforceModel) {
+		this.workforceModel = workforceModel;
 	}
 }

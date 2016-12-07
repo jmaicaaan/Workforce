@@ -22,20 +22,24 @@ public class EmailHelper {
 					new javax.mail.Authenticator() {
 				protected PasswordAuthentication getPasswordAuthentication() {
 					return new PasswordAuthentication(
-							EmailConfig.getSystemEmailAddress(), EmailConfig.getSystemEmailPassword());
+							emailProperties.getProperty("mail.smtp.user"), 
+							emailProperties.getProperty("mail.smtp.password"));
 				}
 			});
 
 			try{
 				MimeMessage message = new MimeMessage(session);
-				message.setFrom(new InternetAddress(EmailConfig.getSystemEmailAddress(), "Workforce"));
-				message.setRecipients(Message.RecipientType.TO,
-						InternetAddress.parse(participantEmail));
+				
+				message.setFrom(new InternetAddress(emailProperties.getProperty("mail.smtp.user"), 
+						ResourceHelper.getPropertyValue("defaults", "appName")));
+				
+				message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(participantEmail));
 				message.setSubject("");
 				message.setText("");
 
 				Transport transport = session.getTransport("smtp");
-				transport.connect("smtp.gmail.com", EmailConfig.getSystemEmailAddress(), EmailConfig.getSystemEmailPassword());
+				transport.connect(emailProperties.getProperty("mail.smtp.host"), emailProperties.getProperty("mail.smtp.user"), 
+						emailProperties.getProperty("mail.smtp.password"));
 
 				message.saveChanges();
 				Transport.send(message);

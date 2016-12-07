@@ -1,5 +1,7 @@
 package com.workforce.models;
 
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 
@@ -64,7 +67,10 @@ public class CompanyModel {
 	@OneToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
 	@PrimaryKeyJoinColumn
 	private UserModel userModel;
-
+	
+	@OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, mappedBy="company")
+	private List<WorkforceModel> workforceModel;
+	
 	public int getID() {
 		return ID;
 	}
@@ -122,5 +128,13 @@ public class CompanyModel {
 
 	public void setUserModel(UserModel userModel) {
 		this.userModel = userModel;
+	}
+
+	public List<WorkforceModel> getWorkforceModel() {
+		return workforceModel;
+	}
+
+	public void setWorkforceModel(List<WorkforceModel> workforceModel) {
+		this.workforceModel = workforceModel;
 	}
 }

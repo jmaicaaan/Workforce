@@ -4,16 +4,16 @@ import java.util.Properties;
 
 public class EmailConfig {
 
-	public static String getSystemEmailAddress(){
+	private static String getSystemEmailAddress(){
 		return ResourceHelper.getPropertyValue("email", "systemEmailAddress");
 	}
-	public static String getSystemEmailPassword(){
+	private static String getSystemEmailPassword(){
 		return ResourceHelper.getPropertyValue("email", "systemEmailPassword");
 	}
-	public static String getSystemEmailHost(){
+	private static String getSystemEmailHost(){
 		return ResourceHelper.getPropertyValue("email", "systemEmailHost");
 	}
-	public static String getSystemEmailPort(){
+	private static String getSystemEmailPort(){
 		return ResourceHelper.getPropertyValue("email", "systemEmailPort");
 	}
 	

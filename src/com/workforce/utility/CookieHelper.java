@@ -4,6 +4,8 @@ import java.util.Arrays;
 
 import javax.servlet.http.Cookie;
 
+import com.opensymphony.xwork2.inject.util.Strings;
+
 public class CookieHelper {
 	
 	public static Cookie setCookie(String cookieName, String cookieValue){
@@ -20,7 +22,7 @@ public class CookieHelper {
 				.filter(i -> i.getName().equals(cookieName))
 				.map(i -> i.getValue())
 				.findAny()
-				.orElse("Error 404: No cookies has found.");
+				.orElse("");
 		
 		return cookieValue;
 	}

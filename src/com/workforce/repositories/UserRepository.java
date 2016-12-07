@@ -1,15 +1,15 @@
 package com.workforce.repositories;
 
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import com.workforce.contracts.IUserRepository;
 import com.workforce.models.UserModel;
 import com.workforce.utility.AccessTokenHelper;
-import com.workforce.utility.HibernateFactory;
 import com.workforce.utility.SecurityHelper;
 
-public class UserRepository implements IUserRepository {
+public class UserRepository extends CrudRepository<UserModel> implements IUserRepository{
 
 	@Override
 	public UserModel Login(UserModel user){
@@ -19,14 +19,14 @@ public class UserRepository implements IUserRepository {
 		UserModel userModel = null;
 
 		try {
-			session = HibernateFactory.getSession().openSession();
+			session = BaseRepository.getSession().openSession();
 			trans = session.beginTransaction();
 
 			userModel = (UserModel) session.createQuery("from Users where email = :email and password = :password")
 					.setString("email", user.getEmail())
 					.setString("password", SecurityHelper.encrypt(user.getPassword()))
 					.uniqueResult();
-		
+			
 			trans.commit();
 
 		} catch (Exception e) {
@@ -34,31 +34,12 @@ public class UserRepository implements IUserRepository {
 			if(trans != null)
 				trans.rollback();
 		}
-
+		
+		Hibernate.initialize(userModel.getAccountTypeModel());
+		Hibernate.initialize(userModel.getAccessToken());
+		
 		session.close();
 		return userModel;
-	}
-	
-	@Override
-	public void RegisterParticipant(UserModel user) {
-		// TODO Auto-generated method stub
-		
-		Session session = null;
-		Transaction trans = null;
-		
-		try {
-			
-			session = HibernateFactory.getSession().openSession();
-			trans = session.beginTransaction();
-			session.save(user);
-			trans.commit();
-			
-		} catch (Exception e) {
-			// TODO: handle exception
-			if(trans != null)
-				trans.rollback();
-			e.printStackTrace();
-		}
 	}
 	
 	@Override
@@ -70,7 +51,7 @@ public class UserRepository implements IUserRepository {
 		UserModel userModel = null;
 		
 		try {
-			session = HibernateFactory.getSession().openSession();
+			session = BaseRepository.getSession().openSession();
 			trans = session.beginTransaction();
 			
 			userModel = (UserModel) session.get(UserModel.class, user.getID());
@@ -87,17 +68,16 @@ public class UserRepository implements IUserRepository {
 			e.printStackTrace();
 		}
 		
+		Hibernate.initialize(userModel);
+		Hibernate.initialize(userModel.getAccessToken());
+		Hibernate.initialize(userModel.getAccountTypeModel());
+		
+		session.close();
 		return userModel;
 	}
 	
 	@Override
-	public boolean HasDuplicateUser(UserModel user) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	
-	@Override
-	public UserModel GetDashboardUserDetails(UserModel user) {
+	public UserModel GetUserAccountTypeByAccessToken(String accessToken) {
 		// TODO Auto-generated method stub
 		
 		Session session = null;
@@ -105,12 +85,15 @@ public class UserRepository implements IUserRepository {
 		UserModel userModel = null;
 		
 		try {
-			session = HibernateFactory.getSession().openSession();
+			session = BaseRepository.getSession().openSession();
 			trans = session.beginTransaction();
 			
 			userModel = (UserModel) session.createQuery("from Users where accessToken = :accessToken")
-						.setParameter("accessToken", user.getAccessToken())
+						.setParameter("accessToken", accessToken)
 						.uniqueResult();
+			
+			Hibernate.initialize(userModel);
+			Hibernate.initialize(userModel.getAccountTypeModel());
 			
 			trans.commit();
 			
@@ -121,6 +104,10 @@ public class UserRepository implements IUserRepository {
 			e.printStackTrace();
 		}
 		
+		
+		
+		session.close();
 		return userModel;
 	}
+
 }
